@@ -1,50 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="170dp"
+    android:layout_height="270dp"
+    android:background="@drawable/album_background"
+    android:orientation="vertical"
+    android:paddingBottom="5dp"
+    app:cardCornerRadius="20dp"
+    android:elevation="1dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/album_background">
 
         <ImageView
             android:id="@+id/albumImg"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:src="@drawable/loading" />
+            android:layout_weight="9"
+            android:scaleType="fitStart"
+            android:src="@drawable/loading"/>
 
         <TextView
             android:id="@+id/albumTitle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="3"
             android:fontFamily="sans-serif-black"
             android:gravity="center"
             android:text="Album Title"
-            android:textSize="24dp" />
+            android:textColor="@color/dark"
+            android:textSize="18dp" />
 
         <TextView
             android:id="@+id/albumArtist"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:gravity="center"
             android:text="Artist"
-            android:textSize="20dp" />
-    </LinearLayout>
+            android:textColor="@color/dark"
+            android:textSize="15dp" />
 
     <TextView
         android:id="@+id/albumYear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:text="Year"
-        android:fontFamily="sans-serif-black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:paddingRight="20dp"
+        android:gravity="end"
+        android:textSize="10dp"
+        android:textColor="@color/dark"
+        android:fontFamily="sans-serif-black" />
+        </LinearLayout>
+</androidx.cardview.widget.CardView>

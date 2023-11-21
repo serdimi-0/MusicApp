@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import org.milaifontanals.musicappnofragments.R;
 import org.milaifontanals.musicappnofragments.model.Album;
 
@@ -29,7 +31,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
     @Override
     public AlbumAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View card;
-        card = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_album,parent,false);
+        card = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_album, parent, false);
         return new ViewHolder(card);
     }
 
@@ -38,7 +40,10 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         Album currentAlbum = list.get(position);
         holder.albumTitle.setText(currentAlbum.getTitle());
         holder.albumArtist.setText(currentAlbum.getArtist());
-        holder.albumYear.setText(currentAlbum.getYear());
+        holder.albumYear.setText("" +currentAlbum.getYear());
+
+        ImageLoader il = ImageLoader.getInstance();
+        il.displayImage(currentAlbum.getImgSrc(), holder.albumImg);
     }
 
     @Override

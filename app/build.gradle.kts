@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace = "org.milaifontanals.musicappnofragments"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "org.milaifontanals.musicappnofragments"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -37,5 +37,6 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    implementation("com.nostra13.universalimageloader:universal-image-loader:1.95")
+    implementation("com.nostra13.universalimageloader:universal-image-loader:1.9.5")
+    implementation("androidx.cardview:cardview:1.0.0")
 }
