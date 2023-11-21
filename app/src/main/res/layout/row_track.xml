@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="horizontal"
+    android:background="@color/light">
+
+    <TextView
+        android:id="@+id/trackNumber"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/dark"
+        android:textSize="18dp"
+        android:text="1"/>
+
+    <ImageView
+        android:id="@+id/trackFav"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="3dp"
+        android:src="@drawable/heart_active"
+        android:scaleType="fitCenter"/>
+
+    <TextView
+        android:id="@+id/trackTitle"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="6"
+        android:paddingLeft="20dp"
+        android:textSize="18dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/dark"
+        android:text="Ojo de halcón"/>
+
+    <TextView
+        android:id="@+id/trackDuration"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:paddingRight="20dp"
+        android:textSize="18dp"
+        android:gravity="end|center"
+        android:textColor="@color/dark"
+        android:text="3:22"/>
+</LinearLayout>

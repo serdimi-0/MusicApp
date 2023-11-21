@@ -4,11 +4,13 @@ public class Track {
     private int number;
     private String title;
     private int duration;
+    private boolean fav;
 
-    public Track(int number, String title, int duration) {
+    public Track(int number, String title, int duration, boolean fav) {
         this.number = number;
         this.title = title;
         this.duration = duration;
+        this.fav = fav;
     }
 
     public int getNumber() {
@@ -33,5 +35,13 @@ public class Track {
 
     public void setDuration(int duration) {
         this.duration = duration;
+    }
+
+    public boolean isFav() {
+        return fav;
+    }
+
+    public void setFav(boolean fav) {
+        this.fav = fav;
     }
 }

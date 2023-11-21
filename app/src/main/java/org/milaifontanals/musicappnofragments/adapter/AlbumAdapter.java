@@ -1,6 +1,8 @@
 package org.milaifontanals.musicappnofragments.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.opengl.Visibility;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.milaifontanals.musicappnofragments.R;
+import org.milaifontanals.musicappnofragments.TracklistActivity;
 import org.milaifontanals.musicappnofragments.model.Album;
 
 import java.util.List;
@@ -44,6 +47,18 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
         ImageLoader il = ImageLoader.getInstance();
         il.displayImage(currentAlbum.getImgSrc(), holder.albumImg);
+
+        holder.itemView.setOnClickListener(e -> {
+                Intent i = new Intent(context, TracklistActivity.class);
+                i.putExtra("albumId",currentAlbum.getId());
+                context.startActivity(i);
+        });
+
+        holder.itemView.setOnLongClickListener(e -> {
+            holder.itemView.findViewById(R.id.albumToolbar).setVisibility(View.VISIBLE);
+
+            return true;
+        });
     }
 
     @Override

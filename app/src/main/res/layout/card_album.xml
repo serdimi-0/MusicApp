@@ -2,58 +2,82 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="170dp"
-    android:layout_height="270dp"
+    android:layout_height="250dp"
     android:background="@drawable/album_background"
+    android:elevation="1dp"
     android:orientation="vertical"
-    android:paddingBottom="5dp"
-    app:cardCornerRadius="20dp"
-    android:elevation="1dp">
+    app:cardCornerRadius="20dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/white"
             android:orientation="vertical"
-            android:background="@drawable/album_background">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/albumImg"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="9"
-            android:scaleType="fitStart"
-            android:src="@drawable/loading"/>
+            <ImageView
+                android:id="@+id/albumImg"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="7"
+                android:scaleType="fitStart"
+                android:src="@drawable/loading" />
 
-        <TextView
-            android:id="@+id/albumTitle"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3"
-            android:fontFamily="sans-serif-black"
-            android:gravity="center"
-            android:text="Album Title"
-            android:textColor="@color/dark"
-            android:textSize="18dp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/albumArtist"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Artist"
-            android:textColor="@color/dark"
-            android:textSize="15dp" />
+                <TextView
+                    android:id="@+id/albumTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="Album Title"
+                    android:textColor="@color/dark"
+                    android:textSize="15dp" />
 
-    <TextView
-        android:id="@+id/albumYear"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="Year"
-        android:paddingRight="20dp"
-        android:gravity="end"
-        android:textSize="10dp"
-        android:textColor="@color/dark"
-        android:fontFamily="sans-serif-black" />
+                <TextView
+                    android:id="@+id/albumArtist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="Artist"
+                    android:textColor="@color/dark"
+                    android:textSize="12dp" />
+
+            </LinearLayout>
+
+
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/albumYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:gravity="end"
+            android:paddingRight="15dp"
+            android:paddingBottom="15dp"
+            android:text="Year"
+            android:textColor="@color/dark"
+            android:textSize="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>
