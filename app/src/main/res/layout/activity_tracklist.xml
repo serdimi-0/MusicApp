@@ -34,13 +34,15 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             app:cardCornerRadius="70dp"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:background="@color/light">
 
             <ImageView
                 android:id="@+id/albumImgTracklist"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/loading" />
+                android:src="@drawable/loading"
+                android:background="@color/light"/>
 
         </androidx.cardview.widget.CardView>
 

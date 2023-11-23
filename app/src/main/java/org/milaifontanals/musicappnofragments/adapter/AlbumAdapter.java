@@ -2,6 +2,7 @@ package org.milaifontanals.musicappnofragments.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.opengl.Visibility;
 import android.util.Log;
@@ -15,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import org.milaifontanals.musicappnofragments.R;
 import org.milaifontanals.musicappnofragments.TracklistActivity;
@@ -26,10 +29,13 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
     private List<Album> list;
     private Context context;
+    private int selectedIndex = -1;
+    ImageLoader il;
 
     public AlbumAdapter(List<Album> list, Context context) {
         this.list = list;
         this.context = context;
+        il = ImageLoader.getInstance();
     }
 
     @NonNull
@@ -42,33 +48,73 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull AlbumAdapter.ViewHolder holder, int position) {
+
         Album currentAlbum = list.get(position);
+
+        if (currentAlbum.getImgBitmap() != null) {
+            holder.albumImg.setImageBitmap(currentAlbum.getImgBitmap());
+        } else {
+            il.loadImage(currentAlbum.getImgSrc(), new ImageLoadingListener() {
+                @Override
+                public void onLoadingStarted(String imageUri, View view) {
+                }
+
+                @Override
+                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                }
+
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    currentAlbum.setImgBitmap(loadedImage);
+                    holder.albumImg.setImageBitmap(loadedImage);
+                }
+
+                @Override
+                public void onLoadingCancelled(String imageUri, View view) {
+                }
+            });
+        }
+
         holder.albumTitle.setText(currentAlbum.getTitle());
         holder.albumArtist.setText(currentAlbum.getArtist());
-        holder.albumYear.setText("" +currentAlbum.getYear());
-
-        ImageLoader il = ImageLoader.getInstance();
-        il.displayImage(currentAlbum.getImgSrc(), holder.albumImg);
+        holder.albumYear.setText("" + currentAlbum.getYear());
 
         holder.itemView.setOnClickListener(e -> {
+
+            this.notifyItemChanged(this.selectedIndex);
+
+            if (this.selectedIndex == -1) {
                 Intent i = new Intent(context, TracklistActivity.class);
-                i.putExtra("albumId",currentAlbum.getId());
+                i.putExtra("albumId", currentAlbum.getId());
                 context.startActivity(i);
-                holder.itemView.getRootView().findViewById(R.id.albumToolbar).setVisibility(View.INVISIBLE);
-            holder.itemView.getRootView().findViewById(R.id.albumToolbar).animate().alpha(0f);
+            } else {
+                holder.itemView.getRootView().findViewById(R.id.albumToolbar).animate().alpha(0f).withEndAction(() -> {
+                    if (holder.itemView.getRootView().findViewById(R.id.albumToolbar) != null)
+                        holder.itemView.getRootView().findViewById(R.id.albumToolbar).setVisibility(View.INVISIBLE);
+                });
+            }
+            this.selectedIndex = -1;
+
         });
 
         holder.itemView.setOnLongClickListener(e -> {
+            int posicioAnterior = this.selectedIndex;
+            this.selectedIndex = holder.getAdapterPosition();
+            this.notifyItemChanged(posicioAnterior);
+            this.notifyItemChanged(selectedIndex);
+
             holder.itemView.getRootView().findViewById(R.id.albumToolbar).setVisibility(View.VISIBLE);
             holder.itemView.getRootView().findViewById(R.id.albumToolbar).animate().alpha(1f);
 
+
             return true;
         });
 
-        holder.itemView.setOnHoverListener((v, event) -> {
-            holder.itemView.setBackgroundColor(0x808080);
-            return true;
-        });
+        if (position == this.selectedIndex) {
+            holder.itemView.findViewById(R.id.linearLayout).setBackgroundResource(R.color.lightPink);
+        } else {
+            holder.itemView.findViewById(R.id.linearLayout).setBackgroundResource(R.color.light);
+        }
     }
 
     @Override

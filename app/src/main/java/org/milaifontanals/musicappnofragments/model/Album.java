@@ -1,5 +1,7 @@
 package org.milaifontanals.musicappnofragments.model;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +10,7 @@ public class Album {
     private String title;
     private String artist;
     private String imgSrc;
+    private Bitmap imgBitmap;
     private short year;
 
     private List<Track> trackList;
@@ -72,6 +75,14 @@ public class Album {
 
     public static List<Album> getAlbumList() {
         return albumList;
+    }
+
+    public Bitmap getImgBitmap() {
+        return imgBitmap;
+    }
+
+    public void setImgBitmap(Bitmap imgBitmap) {
+        this.imgBitmap = imgBitmap;
     }
 
     public static void generateAlbumList(){
