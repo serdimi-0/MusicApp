@@ -2,7 +2,9 @@ package org.milaifontanals.musicappnofragments.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.opengl.Visibility;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,11 +54,19 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
                 Intent i = new Intent(context, TracklistActivity.class);
                 i.putExtra("albumId",currentAlbum.getId());
                 context.startActivity(i);
+                holder.itemView.getRootView().findViewById(R.id.albumToolbar).setVisibility(View.INVISIBLE);
+            holder.itemView.getRootView().findViewById(R.id.albumToolbar).animate().alpha(0f);
         });
 
         holder.itemView.setOnLongClickListener(e -> {
-            holder.itemView.findViewById(R.id.albumToolbar).setVisibility(View.VISIBLE);
+            holder.itemView.getRootView().findViewById(R.id.albumToolbar).setVisibility(View.VISIBLE);
+            holder.itemView.getRootView().findViewById(R.id.albumToolbar).animate().alpha(1f);
 
+            return true;
+        });
+
+        holder.itemView.setOnHoverListener((v, event) -> {
+            holder.itemView.setBackgroundColor(0x808080);
             return true;
         });
     }

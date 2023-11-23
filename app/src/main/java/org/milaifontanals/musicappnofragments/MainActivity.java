@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         rcyAlbums.addItemDecoration(new GridSpacingItemDecoration(2,50,true));
         rcyAlbums.setHasFixedSize(true);
         rcyAlbums.setAdapter(albumAdapter);
+
 
     }
 }
