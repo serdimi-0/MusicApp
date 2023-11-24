@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name="org.milaifontanals.musicappnofragments.TracklistActivity" />
+        <activity android:name="org.milaifontanals.musicappnofragments.EditAlbumActivity" />
     </application>
 
 </manifest>

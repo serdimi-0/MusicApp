@@ -36,7 +36,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/albumToolbar"
-        android:layout_width="150dp"
+        android:layout_width="200dp"
         android:layout_height="50dp"
         android:background="@drawable/toolbar_background"
         android:elevation="1dp"
@@ -50,20 +50,30 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
         <LinearLayout
-            android:layout_width="120dp"
+            android:layout_width="170dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="horizontal">
 
             <ImageButton
+                android:id="@+id/btnEditAlbum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="?attr/actionButtonStyle"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="8dp"
                 android:src="@drawable/pencil" />
 
-            <ImageButton
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/line"/>
+
+            <ImageButton
+                android:id="@+id/btnRmAlbum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
                 style="?attr/actionButtonStyle"
                 android:src="@drawable/trash" />
 

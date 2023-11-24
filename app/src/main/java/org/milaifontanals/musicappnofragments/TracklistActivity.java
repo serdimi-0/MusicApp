@@ -35,7 +35,7 @@ public class TracklistActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         int albumId = (int)i.getLongExtra("albumId",-1);
-        Album currentAlbum = Album.getAlbumList().get(albumId-1);
+        Album currentAlbum = Album.getAlbumList().stream().filter(obj -> obj.getId() == albumId).findFirst().orElse(null);
 
         ImageLoaderConfiguration conf = new ImageLoaderConfiguration.Builder(this)
                 .denyCacheImageMultipleSizesInMemory()

@@ -38,6 +38,18 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         il = ImageLoader.getInstance();
     }
 
+    public List<Album> getList() {
+        return list;
+    }
+
+    public int getSelectedIndex() {
+        return selectedIndex;
+    }
+
+    public void setSelectedIndex(int selectedIndex) {
+        this.selectedIndex = selectedIndex;
+    }
+
     @NonNull
     @Override
     public AlbumAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -80,6 +92,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         holder.albumYear.setText("" + currentAlbum.getYear());
 
         holder.itemView.setOnClickListener(e -> {
+
+            Log.d("TAG","Tamaño en el adapter: " + list.size());
 
             this.notifyItemChanged(this.selectedIndex);
 
