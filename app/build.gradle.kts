@@ -26,6 +26,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    buildFeatures {
+        viewBinding = true
+        dataBinding = true
+    }
 }
 
 dependencies {
@@ -39,4 +44,11 @@ dependencies {
 
     implementation("com.nostra13.universalimageloader:universal-image-loader:1.9.5")
     implementation("androidx.cardview:cardview:1.0.0")
+
+    //Fragments
+    val nav_version = "2.5.3"
+    implementation("androidx.navigation:navigation-fragment:$nav_version")
+    implementation("androidx.navigation:navigation-ui:$nav_version")
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
+    implementation("androidx.navigation:navigation-compose:$nav_version")
 }
