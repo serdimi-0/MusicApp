@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "org.milaifontanals.musicappnofragments"
+    namespace = "org.milaifontanals.musicapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "org.milaifontanals.musicappnofragments"
+        applicationId = "org.milaifontanals.musicapp"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

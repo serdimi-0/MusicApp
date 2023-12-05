@@ -1,4 +1,4 @@
-package org.milaifontanals.musicappnofragments;
+package org.milaifontanals.musicapp;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -18,12 +17,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
-import org.milaifontanals.musicappnofragments.adapter.AlbumAdapter;
-import org.milaifontanals.musicappnofragments.model.Album;
-import org.milaifontanals.musicappnofragments.model.Track;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.milaifontanals.musicapp.adapter.AlbumAdapter;
+import org.milaifontanals.musicapp.model.Album;
 
 public class MainActivity extends AppCompatActivity {
 

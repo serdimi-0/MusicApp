@@ -1,4 +1,4 @@
-package org.milaifontanals.musicappnofragments;
+package org.milaifontanals.musicapp;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.milaifontanals.musicappnofragments.model.Album;
+import org.milaifontanals.musicapp.model.Album;
 
 public class EditAlbumActivity extends AppCompatActivity {
 

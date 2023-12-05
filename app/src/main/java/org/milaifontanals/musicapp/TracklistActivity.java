@@ -1,10 +1,7 @@
-package org.milaifontanals.musicappnofragments;
+package org.milaifontanals.musicapp;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,8 +17,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
-import org.milaifontanals.musicappnofragments.adapter.TrackAdapter;
-import org.milaifontanals.musicappnofragments.model.Album;
+import org.milaifontanals.musicapp.adapter.TrackAdapter;
+import org.milaifontanals.musicapp.model.Album;
 
 
 public class TracklistActivity extends AppCompatActivity {

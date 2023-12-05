@@ -1,4 +1,4 @@
-package org.milaifontanals.musicappnofragments.model;
+package org.milaifontanals.musicapp.model;
 
 public class Track {
     private int number;

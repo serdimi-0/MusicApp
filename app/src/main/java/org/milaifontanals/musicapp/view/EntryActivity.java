@@ -1,10 +1,10 @@
-package org.milaifontanals.musicappnofragments.view;
+package org.milaifontanals.musicapp.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import org.milaifontanals.musicappnofragments.R;
+import org.milaifontanals.musicapp.R;
 
 public class EntryActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package org.milaifontanals.musicappnofragments;
+package org.milaifontanals.musicapp;
 
 import android.graphics.Rect;
 import android.view.View;

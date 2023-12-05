@@ -1,4 +1,4 @@
-package org.milaifontanals.musicappnofragments.view;
+package org.milaifontanals.musicapp.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,12 +20,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
-import org.milaifontanals.musicappnofragments.EditAlbumActivity;
-import org.milaifontanals.musicappnofragments.GridSpacingItemDecoration;
-import org.milaifontanals.musicappnofragments.R;
-import org.milaifontanals.musicappnofragments.adapter.AlbumAdapter;
-import org.milaifontanals.musicappnofragments.databinding.FragmentAlbumListBinding;
-import org.milaifontanals.musicappnofragments.model.Album;
+import org.milaifontanals.musicapp.EditAlbumActivity;
+import org.milaifontanals.musicapp.GridSpacingItemDecoration;
+import org.milaifontanals.musicapp.adapter.AlbumAdapter;
+import org.milaifontanals.musicapp.databinding.FragmentAlbumListBinding;
+import org.milaifontanals.musicapp.model.Album;
 
 /**
  * A simple {@link Fragment} subclass.

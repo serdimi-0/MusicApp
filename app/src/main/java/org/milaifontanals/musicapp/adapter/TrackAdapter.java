@@ -1,4 +1,4 @@
-package org.milaifontanals.musicappnofragments.adapter;
+package org.milaifontanals.musicapp.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,11 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-
-import org.milaifontanals.musicappnofragments.R;
-import org.milaifontanals.musicappnofragments.model.Track;
-import org.w3c.dom.Text;
+import org.milaifontanals.musicapp.R;
+import org.milaifontanals.musicapp.model.Track;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

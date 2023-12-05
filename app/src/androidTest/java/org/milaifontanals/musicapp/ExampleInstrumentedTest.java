@@ -1,4 +1,4 @@
-package org.milaifontanals.musicappnofragments;
+package org.milaifontanals.musicapp;
 
 import android.content.Context;
 

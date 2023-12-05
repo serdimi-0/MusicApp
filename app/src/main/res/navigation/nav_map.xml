@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/albumListFragment"
-        android:name="org.milaifontanals.musicappnofragments.view.AlbumListFragment"
+        android:name="org.milaifontanals.musicapp.view.AlbumListFragment"
         android:label="fragment_album_list"
         tools:layout="@layout/fragment_album_list" />
 </navigation>

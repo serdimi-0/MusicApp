@@ -1,10 +1,8 @@
-package org.milaifontanals.musicappnofragments.adapter;
+package org.milaifontanals.musicapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.opengl.Visibility;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +17,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
-import org.milaifontanals.musicappnofragments.R;
-import org.milaifontanals.musicappnofragments.TracklistActivity;
-import org.milaifontanals.musicappnofragments.model.Album;
+import org.milaifontanals.musicapp.R;
+import org.milaifontanals.musicapp.TracklistActivity;
+import org.milaifontanals.musicapp.model.Album;
 
 import java.util.List;
 
