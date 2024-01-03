@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,16 +26,13 @@ import org.milaifontanals.musicapp.GridSpacingItemDecoration;
 import org.milaifontanals.musicapp.adapter.AlbumAdapter;
 import org.milaifontanals.musicapp.databinding.FragmentAlbumListBinding;
 import org.milaifontanals.musicapp.model.Album;
+import org.milaifontanals.musicapp.viewmodel.AlbumsViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AlbumListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AlbumListFragment extends Fragment {
 
     private AlbumAdapter albumAdapter;
     private FragmentAlbumListBinding binding;
+    private AlbumsViewModel mViewModel;
 
     public AlbumListFragment() {
         // Required empty public constructor
@@ -49,6 +47,8 @@ public class AlbumListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mViewModel = new ViewModelProvider(requireActivity()).get(AlbumsViewModel.class);
     }
 
     @Override
@@ -67,9 +67,7 @@ public class AlbumListFragment extends Fragment {
                 .build();
         ImageLoader.getInstance().init(conf);
 
-        Album.generateAlbumList();
-
-        albumAdapter = new AlbumAdapter(Album.getAlbumList(), requireContext());
+        albumAdapter = new AlbumAdapter(mViewModel.getSavedAlbums(), this);
         RecyclerView rcyAlbums = binding.rcyAlbums;
         rcyAlbums.setLayoutManager(new GridLayoutManager(requireContext(), 2));
         rcyAlbums.addItemDecoration(new GridSpacingItemDecoration(2, 50, true));
@@ -109,7 +107,7 @@ public class AlbumListFragment extends Fragment {
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Album.getAlbumList().remove(selectedAlbum);
+                            mViewModel.getSavedAlbums().remove(selectedAlbum);
 
                             albumAdapter.notifyItemRemoved(albumAdapter.getSelectedIndex());
                             albumAdapter.setSelectedIndex(-1);

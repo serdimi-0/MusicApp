@@ -9,5 +9,18 @@
         android:id="@+id/albumListFragment"
         android:name="org.milaifontanals.musicapp.view.AlbumListFragment"
         android:label="fragment_album_list"
-        tools:layout="@layout/fragment_album_list" />
+        tools:layout="@layout/fragment_album_list" >
+        <action
+            android:id="@+id/action_albumListFragment_to_tracklistFragment"
+            app:destination="@id/tracklistFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tracklistFragment"
+        android:name="org.milaifontanals.musicapp.view.TracklistFragment"
+        android:label="fragment_tracklist"
+        tools:layout="@layout/fragment_tracklist" >
+        <argument
+            android:name="id"
+            app:argType="long" />
+    </fragment>
 </navigation>
