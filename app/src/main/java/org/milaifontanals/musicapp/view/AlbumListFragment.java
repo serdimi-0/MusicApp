@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -75,6 +76,8 @@ public class AlbumListFragment extends Fragment {
         rcyAlbums.setAdapter(albumAdapter);
 
         binding.btnEditAlbum.setOnClickListener(e -> {
+
+            NavDirections nav = AlbumListFragmentDirections.actionAlbumListFragmentToTracklistFragment(0);
 
             Handler handler = new Handler(Looper.getMainLooper());
 

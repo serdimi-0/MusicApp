@@ -55,7 +55,7 @@ public class TracklistFragment extends Fragment {
         mViewModel = new ViewModelProvider(requireActivity()).get(AlbumsViewModel.class);
         if (getArguments() != null) {
             mId = getArguments().getInt(ARG_ID);
-            Log.d("TAG",""+mId);
+            Log.d("TAG","Id del album: "+mId);
             currentAlbum = mViewModel.getSavedAlbums().stream().filter(obj -> obj.getId() == mId).findFirst().orElse(null);
         }
     }
@@ -92,11 +92,11 @@ public class TracklistFragment extends Fragment {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
 
-        trackAdapter = new TrackAdapter(currentAlbum.getTrackList(),v.getContext());
+        /*trackAdapter = new TrackAdapter(currentAlbum.getTrackList(),v.getContext());
         RecyclerView rcyTracks = binding.rcyTracklist;
         rcyTracks.setLayoutManager(new LinearLayoutManager(v.getContext(), LinearLayoutManager.VERTICAL, false));
         rcyTracks.setHasFixedSize(true);
-        rcyTracks.setAdapter(trackAdapter);
+        rcyTracks.setAdapter(trackAdapter);*/
 
         return v;
     }
