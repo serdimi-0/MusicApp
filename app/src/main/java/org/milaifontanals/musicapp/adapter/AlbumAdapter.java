@@ -1,5 +1,6 @@
 package org.milaifontanals.musicapp.adapter;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
@@ -28,13 +30,15 @@ import java.util.List;
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> {
 
     private List<Album> list;
+    private AppCompatActivity activity;
     private Fragment context;
     private int selectedIndex = -1;
     ImageLoader il;
 
-    public AlbumAdapter(List<Album> list, Fragment context) {
+    public AlbumAdapter(List<Album> list, Fragment context, AppCompatActivity activity) {
         this.list = list;
         this.context = context;
+        this.activity = activity;
         il = ImageLoader.getInstance();
     }
 
@@ -93,20 +97,14 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
         holder.itemView.setOnClickListener(e -> {
 
-            Log.d("TAG","Tamaño en el adapter: " + list.size());
 
             this.notifyItemChanged(this.selectedIndex);
 
             if (this.selectedIndex == -1) {
                 NavDirections n = AlbumListFragmentDirections.actionAlbumListFragmentToTracklistFragment(currentAlbum.getId());
                 NavController nav = NavHostFragment.findNavController(context);
-                Log.d("TAG","Id del álbum: " + currentAlbum.getId());
+                /*activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
                 nav.navigate(n);
-                /*NavDirections n =
-                nav.navigate(R.id.action_homeFragment_to_productesFragment);*/
-                /*Intent i = new Intent(context, TracklistActivity.class);
-                i.putExtra("albumId", currentAlbum.getId());
-                context.startActivity(i);*/
 
             } else {
                 holder.itemView.getRootView().findViewById(R.id.albumToolbar).animate().alpha(0f).withEndAction(() -> {

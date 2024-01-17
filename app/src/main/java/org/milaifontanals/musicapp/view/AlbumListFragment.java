@@ -4,10 +4,12 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +26,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import org.milaifontanals.musicapp.GridSpacingItemDecoration;
+import org.milaifontanals.musicapp.R;
 import org.milaifontanals.musicapp.adapter.AlbumAdapter;
 import org.milaifontanals.musicapp.databinding.FragmentAlbumListBinding;
 import org.milaifontanals.musicapp.model.Album;
@@ -34,6 +37,7 @@ public class AlbumListFragment extends Fragment {
     private AlbumAdapter albumAdapter;
     private FragmentAlbumListBinding binding;
     private AlbumsViewModel mViewModel;
+    private NavController navController;
 
     public AlbumListFragment() {
         // Required empty public constructor
@@ -68,7 +72,7 @@ public class AlbumListFragment extends Fragment {
                 .build();
         ImageLoader.getInstance().init(conf);
 
-        albumAdapter = new AlbumAdapter(mViewModel.getSavedAlbums(), this);
+        albumAdapter = new AlbumAdapter(mViewModel.getSavedAlbums(), this,(AppCompatActivity)getActivity());
         RecyclerView rcyAlbums = binding.rcyAlbums;
         rcyAlbums.setLayoutManager(new GridLayoutManager(requireContext(), 2));
         rcyAlbums.addItemDecoration(new GridSpacingItemDecoration(2, 50, true));

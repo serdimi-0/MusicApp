@@ -5,7 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.EntryActivity">
+    tools:context=".view.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,8 +15,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_weight="1"
+            android:layout_height="50dp"
             android:background="@color/pink"
             android:elevation="2dp"
             app:layout_constraintBottom_toTopOf="@id/nav_host_fragment"
@@ -33,7 +32,7 @@
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="14"
+            android:layout_weight="18"
             app:defaultNavHost="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -41,7 +40,7 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:navGraph="@navigation/nav_map" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>ç
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"

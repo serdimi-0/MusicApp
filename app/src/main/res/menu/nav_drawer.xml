@@ -3,18 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-
-
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_music"
             android:icon="@drawable/music_note"
             android:title="My Music" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_download"
             android:icon="@drawable/download"
             android:title="Download Albums" />
     </group>
-
 
 </menu>
