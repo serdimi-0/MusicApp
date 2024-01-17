@@ -103,7 +103,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
             if (this.selectedIndex == -1) {
                 NavDirections n = AlbumListFragmentDirections.actionAlbumListFragmentToTracklistFragment(currentAlbum.getId());
                 NavController nav = NavHostFragment.findNavController(context);
-                /*activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
+                /*activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);jhg*/
                 nav.navigate(n);
 
             } else {
