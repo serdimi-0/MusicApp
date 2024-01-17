@@ -104,6 +104,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
             if (this.selectedIndex == -1) {
                 NavDirections n = AlbumListFragmentDirections.actionAlbumListFragmentToTracklistFragment(currentAlbum.getId());
                 NavController nav = NavHostFragment.findNavController(context);
+                Log.d("TAG","Id del álbum: " + currentAlbum.getId());
                 nav.navigate(n);
                 /*NavDirections n =
                 nav.navigate(R.id.action_homeFragment_to_productesFragment);*/
