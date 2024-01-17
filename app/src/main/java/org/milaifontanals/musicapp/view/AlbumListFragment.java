@@ -1,13 +1,14 @@
 package org.milaifontanals.musicapp.view;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,7 +23,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
-import org.milaifontanals.musicapp.EditAlbumActivity;
 import org.milaifontanals.musicapp.GridSpacingItemDecoration;
 import org.milaifontanals.musicapp.adapter.AlbumAdapter;
 import org.milaifontanals.musicapp.databinding.FragmentAlbumListBinding;
@@ -77,14 +77,14 @@ public class AlbumListFragment extends Fragment {
 
         binding.btnEditAlbum.setOnClickListener(e -> {
 
-            NavDirections nav = AlbumListFragmentDirections.actionAlbumListFragmentToTracklistFragment(0);
-
             Handler handler = new Handler(Looper.getMainLooper());
 
             Album selectedAlbum = albumAdapter.getList().get(albumAdapter.getSelectedIndex());
-            Intent i = new Intent(requireContext(), EditAlbumActivity.class);
-            i.putExtra("albumId", selectedAlbum.getId());
-            this.startActivity(i);
+
+
+            NavDirections n = AlbumListFragmentDirections.actionAlbumListFragmentToAlbumEditFragment(selectedAlbum.getId());
+            NavController nav = NavHostFragment.findNavController(this);
+            nav.navigate(n);
 
             // Timeout para que no desaparezca la toolbar antes de llegar al Intent
             handler.postDelayed(new Runnable() {

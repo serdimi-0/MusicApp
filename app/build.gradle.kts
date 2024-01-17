@@ -52,4 +52,7 @@ dependencies {
     implementation("androidx.navigation:navigation-ui:$nav_version")
     implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
     implementation("androidx.navigation:navigation-compose:$nav_version")
+
+    // Navigation Drawer
+    implementation("com.google.android.material:material:1.2.0-alpha05")
 }

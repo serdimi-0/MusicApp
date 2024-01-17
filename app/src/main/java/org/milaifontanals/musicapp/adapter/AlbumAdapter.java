@@ -1,7 +1,5 @@
 package org.milaifontanals.musicapp.adapter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,9 +20,7 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import org.milaifontanals.musicapp.R;
-import org.milaifontanals.musicapp.TracklistActivity;
 import org.milaifontanals.musicapp.model.Album;
-import org.milaifontanals.musicapp.view.AlbumListFragment;
 import org.milaifontanals.musicapp.view.AlbumListFragmentDirections;
 
 import java.util.List;

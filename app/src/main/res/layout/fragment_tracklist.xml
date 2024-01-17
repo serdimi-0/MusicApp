@@ -70,7 +70,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:paddingTop="10dp"
+
         android:id="@+id/rcyTracklist"
         android:layout_width="match_parent"
         android:layout_height="0dp"
