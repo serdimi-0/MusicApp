@@ -1,4 +1,4 @@
-package org.milaifontanals.musicapp;
+package org.milaifontanals.musicapp.utils;
 
 import android.graphics.Rect;
 import android.view.View;

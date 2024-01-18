@@ -15,6 +15,14 @@ import android.view.MenuItem;
 import com.google.android.material.navigation.NavigationView;
 
 import org.milaifontanals.musicapp.R;
+import org.milaifontanals.musicapp.lastfm.LastfmAPI;
+import org.milaifontanals.musicapp.model.Artist;
+
+import java.util.List;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -29,14 +37,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setSupportActionBar(toolbar);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_music);
+
+
+        Observable.fromCallable(() -> {
+
+            List<Artist> list = LastfmAPI.getArtists("tyler");
+
+            return list;
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe();
 
 
     }

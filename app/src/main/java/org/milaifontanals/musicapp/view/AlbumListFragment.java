@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,8 +24,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
-import org.milaifontanals.musicapp.GridSpacingItemDecoration;
-import org.milaifontanals.musicapp.R;
+import org.milaifontanals.musicapp.utils.GridSpacingItemDecoration;
 import org.milaifontanals.musicapp.adapter.AlbumAdapter;
 import org.milaifontanals.musicapp.databinding.FragmentAlbumListBinding;
 import org.milaifontanals.musicapp.model.Album;
