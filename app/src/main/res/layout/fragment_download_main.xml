@@ -13,33 +13,57 @@
         android:padding="10dp">
 
         <TextView
+            android:layout_marginRight="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Search: " />
 
         <EditText
+            android:id="@+id/edtSearch"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="50dp"/>
     </LinearLayout>
 
-    <RadioGroup
-        android:gravity="center"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <RadioButton android:id="@+id/radio_pirates"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_height="wrap_content">
+
+        <RadioGroup
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_artists"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:text="Artists"
+                android:checked="true"/>
+
+            <RadioButton
+                android:id="@+id/radio_albums"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Albums" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btnSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:text="Artists"/>
-        <RadioButton android:id="@+id/radio_ninjas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Albums"/>
-    </RadioGroup>
+            android:text="Search"/>
+    </LinearLayout>
+
+
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcyArtists"
+        android:id="@+id/rcyDownload"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>

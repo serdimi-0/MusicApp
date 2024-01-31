@@ -35,4 +35,10 @@
             android:name="id"
             app:argType="long" />
     </fragment>
+    <action android:id="@+id/action_global_albumListFragment" app:destination="@id/albumListFragment" />
+    <fragment
+        android:id="@+id/downloadMainFragment"
+        android:name="org.milaifontanals.musicapp.view.DownloadMainFragment"
+        android:label="fragment_download_main"
+        tools:layout="@layout/fragment_download_main" /><action android:id="@+id/action_global_downloadMainFragment" app:destination="@id/downloadMainFragment"/>
 </navigation>

@@ -1,8 +1,11 @@
 package org.milaifontanals.musicapp.model;
 
+import android.graphics.Bitmap;
+
 public class Artist {
     private String name;
     private String imgSrc;
+    private Bitmap imgBitmap;
 
 
     public Artist(String name, String imgSrc) {
@@ -25,6 +28,15 @@ public class Artist {
     public void setImgSrc(String imgSrc) {
         this.imgSrc = imgSrc;
     }
+
+    public Bitmap getImgBitmap() {
+        return imgBitmap;
+    }
+
+    public void setImgBitmap(Bitmap imgBitmap) {
+        this.imgBitmap = imgBitmap;
+    }
+
 
     @Override
     public String toString() {

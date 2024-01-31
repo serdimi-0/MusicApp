@@ -8,9 +8,16 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -31,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -46,12 +52,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setCheckedItem(R.id.nav_music);
 
 
-        Observable.fromCallable(() -> {
+        /*Observable.fromCallable(() -> {
 
             List<Artist> list = LastfmAPI.getArtists("tyler");
 
+            Log.d("TAG", list.toString());
+
             return list;
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe();
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe();*/
 
 
     }
@@ -61,15 +69,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        Fragment fragment = null;
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        NavController nav = Navigation.findNavController(this, R.id.nav_host_fragment);
 
         if (id == R.id.nav_music) {
-            fragment = new AlbumListFragment();
+            nav.navigate(R.id.action_global_albumListFragment);
         } else if (id == R.id.nav_download) {
-            fragment = new DownloadMainFragment();
+            nav.navigate(R.id.action_global_downloadMainFragment);
         }
-        fragmentManager.beginTransaction().replace(R.id.nav_host_fragment, fragment).commit();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
