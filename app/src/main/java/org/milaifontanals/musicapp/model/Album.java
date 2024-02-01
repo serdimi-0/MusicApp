@@ -2,20 +2,33 @@ package org.milaifontanals.musicapp.model;
 
 import android.graphics.Bitmap;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Album {
+    @PrimaryKey
     private long id;
+    @ColumnInfo(name = "title")
     private String title;
+    @ColumnInfo(name = "artist")
     private String artist;
+    @ColumnInfo(name = "imgSrc")
     private String imgSrc;
+    @Ignore
     private Bitmap imgBitmap;
+    @ColumnInfo(name = "year")
     private short year;
 
+    @Ignore
     private List<Track> trackList;
 
-    private static List<Album> albumList = new ArrayList<>();
+    public Album() {}
 
     public Album(long id, String title, String artist, short year, String imgSrc) {
         this.id = id;
@@ -73,10 +86,6 @@ public class Album {
         this.trackList = trackList;
     }
 
-    public static List<Album> getAlbumList() {
-        return albumList;
-    }
-
     public Bitmap getImgBitmap() {
         return imgBitmap;
     }
@@ -85,23 +94,4 @@ public class Album {
         this.imgBitmap = imgBitmap;
     }
 
-    public static void generateAlbumList(){
-        Album a1 = new Album(1L, "BBO", "Hoke", (short) 2022, "https://lastfm.freetls.fastly.net/i/u/770x0/1e9fb81bd814ed33dff0aeef21f296bf.jpg");
-
-        ArrayList<Track> tracks = new ArrayList<Track>();
-        tracks.add(new Track(1, "Ojo de Halcón", 110000, false));
-        tracks.add(new Track(2, "Five O", 140000, false));
-        tracks.add(new Track(3, "Chorbo Real", 182000, false));
-        tracks.add(new Track(4, "Jjjj", 207000, false));
-        tracks.add(new Track(5, "Speedrun Skit", 66000, false));
-        tracks.add(new Track(6, "Desamparados", 197000, false));
-        tracks.add(new Track(7, "Medallones", 150000, false));
-        tracks.add(new Track(8, "TT", 121000, false));
-        tracks.add(new Track(9, "Automático", 154000, false));
-        tracks.add(new Track(10, "Olympique", 152000, false));
-        tracks.add(new Track(11, "Santo", 92000, false));
-        a1.setTrackList(tracks);
-
-        albumList.add(a1);
-    }
 }

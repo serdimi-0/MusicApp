@@ -1,12 +1,29 @@
 package org.milaifontanals.musicapp.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
+
+@Entity(primaryKeys = {"number", "album_id"},
+        foreignKeys = @ForeignKey(entity = Album.class, parentColumns = "id", childColumns = "album_id"))
 public class Track {
+    @ColumnInfo(name = "album_id")
+    public long albumId;
     private int number;
+    @ColumnInfo(name = "title")
     private String title;
+    @ColumnInfo(name = "duration")
     private int duration;
+    @ColumnInfo(name = "fav")
     private boolean fav;
 
-    public Track(int number, String title, int duration, boolean fav) {
+
+    public Track() {
+    }
+
+    public Track(long albumId, int number, String title, int duration, boolean fav) {
+        this.albumId = albumId;
         this.number = number;
         this.title = title;
         this.duration = duration;
