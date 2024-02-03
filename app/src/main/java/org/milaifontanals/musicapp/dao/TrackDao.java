@@ -15,7 +15,7 @@ import java.util.List;
 public interface TrackDao {
 
     @Query("SELECT * FROM track WHERE album_id = :albumId")
-    LiveData<List<Track>> getTracksFromAlbum(int albumId);
+    LiveData<List<Track>> getTracksFromAlbum(String albumId);
 
     @Insert
     void insertAll(Track... tracks);

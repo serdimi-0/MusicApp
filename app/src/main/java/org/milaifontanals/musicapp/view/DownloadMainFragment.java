@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +15,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
-import org.milaifontanals.musicapp.R;
-import org.milaifontanals.musicapp.adapter.ArtistAdapter;
+import org.milaifontanals.musicapp.adapter.DownloadAdapter;
 import org.milaifontanals.musicapp.databinding.FragmentDownloadMainBinding;
 import org.milaifontanals.musicapp.lastfm.LastfmAPI;
-import org.milaifontanals.musicapp.model.Album;
-import org.milaifontanals.musicapp.model.Artist;
 
 import java.util.List;
 
@@ -32,7 +28,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class DownloadMainFragment extends Fragment {
 
     private FragmentDownloadMainBinding binding;
-    private ArtistAdapter artistAdapter;
+    private DownloadAdapter downloadAdapter;
+    private RecyclerView rcy;
 
     public DownloadMainFragment() {
     }
@@ -56,42 +53,45 @@ public class DownloadMainFragment extends Fragment {
         ImageLoaderConfiguration conf = new ImageLoaderConfiguration.Builder(requireContext()).denyCacheImageMultipleSizesInMemory().diskCacheSize(2048).tasksProcessingOrder(QueueProcessingType.LIFO).defaultDisplayImageOptions(DisplayImageOptions.createSimple()).build();
         ImageLoader.getInstance().init(conf);
 
-        RecyclerView rcy = binding.rcyDownload;
+        rcy = binding.rcyDownload;
         rcy.setLayoutManager(new LinearLayoutManager(getContext()));
         rcy.setHasFixedSize(true);
 
 
-        artistAdapter = new ArtistAdapter(null, this);
-
 
         binding.btnSearch.setOnClickListener(e -> {
-            String text = binding.edtSearch.getText().toString();
-
-            if (text.isEmpty()) return;
-
-            Observable.fromCallable(() -> {
-                if (binding.radioAlbums.isChecked()) {
-                    return LastfmAPI.getAlbums(text);
-                } else if (binding.radioArtists.isChecked()) {
-                    return LastfmAPI.getArtists(text);
-                }
-                return null;
-            }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).doOnNext(data -> {
-                if (data instanceof List<?>) {
-                    List<?> dataList = (List<?>) data;
-                    if (binding.radioAlbums.isChecked()) {
-                        Log.d("TAG", dataList.toString());
-                    } else if (binding.radioArtists.isChecked()) {
-                        rcy.setAdapter(artistAdapter);
-                        artistAdapter.setList((List<Artist>) dataList);
-                        Log.d("TAG", dataList.toString());
-                    }
-                }
-            }).subscribe();
-
+            search();
+        });
+        binding.radioAlbums.setOnClickListener(e -> {
+            search();
+        });
+        binding.radioArtists.setOnClickListener(e -> {
+            search();
         });
 
 
         return v;
+    }
+
+    private void search(){
+        String text = binding.edtSearch.getText().toString();
+
+        if (text.isEmpty()) return;
+
+        Observable.fromCallable(() -> {
+            List<?> adapterList = null;
+            if (binding.radioAlbums.isChecked()) {
+                downloadAdapter = new DownloadAdapter(null, this, "Album");
+                adapterList = LastfmAPI.getAlbumsFromName(text);
+            } else if (binding.radioArtists.isChecked()) {
+                downloadAdapter = new DownloadAdapter(null, this, "Artist");
+                adapterList = LastfmAPI.getArtists(text);
+            }
+            return adapterList;
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).doOnNext(data -> {
+            downloadAdapter.setList((List<?>)data);
+            rcy.setAdapter(downloadAdapter);
+        }).subscribe();
+
     }
 }

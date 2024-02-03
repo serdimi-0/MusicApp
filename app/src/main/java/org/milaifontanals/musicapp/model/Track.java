@@ -1,5 +1,6 @@
 package org.milaifontanals.musicapp.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -9,7 +10,8 @@ import androidx.room.PrimaryKey;
         foreignKeys = @ForeignKey(entity = Album.class, parentColumns = "id", childColumns = "album_id"))
 public class Track {
     @ColumnInfo(name = "album_id")
-    public long albumId;
+    @NonNull
+    public String albumId;
     private int number;
     @ColumnInfo(name = "title")
     private String title;
@@ -22,7 +24,7 @@ public class Track {
     public Track() {
     }
 
-    public Track(long albumId, int number, String title, int duration, boolean fav) {
+    public Track(String albumId, int number, String title, int duration, boolean fav) {
         this.albumId = albumId;
         this.number = number;
         this.title = title;

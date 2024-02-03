@@ -2,6 +2,7 @@ package org.milaifontanals.musicapp.model;
 
 import android.graphics.Bitmap;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -14,7 +15,8 @@ import java.util.List;
 @Entity
 public class Album {
     @PrimaryKey
-    private long id;
+    @NonNull
+    private String id;
     @ColumnInfo(name = "title")
     private String title;
     @ColumnInfo(name = "artist")
@@ -31,7 +33,7 @@ public class Album {
 
     public Album() {}
 
-    public Album(long id, String title, String artist, short year, String imgSrc) {
+    public Album(String id, String title, String artist, short year, String imgSrc) {
         this.id = id;
         this.title = title;
         this.artist = artist;
@@ -39,11 +41,11 @@ public class Album {
         this.year = year;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

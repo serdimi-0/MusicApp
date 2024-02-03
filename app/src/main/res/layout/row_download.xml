@@ -6,13 +6,13 @@
     android:background="@color/light">
 
     <ImageView
-        android:id="@+id/artistImage"
+        android:id="@+id/downloadImage"
         android:layout_width="100dp"
         android:layout_height="match_parent"
         android:src="@drawable/loading"/>
 
     <TextView
-        android:id="@+id/artistName"
+        android:id="@+id/downloadName"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:paddingLeft="20dp"

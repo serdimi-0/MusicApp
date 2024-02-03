@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
@@ -24,6 +25,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import org.milaifontanals.musicapp.R;
 import org.milaifontanals.musicapp.dao.TrackDao;
 import org.milaifontanals.musicapp.model.Album;
+import org.milaifontanals.musicapp.model.Track;
 import org.milaifontanals.musicapp.view.AlbumListFragmentDirections;
 import org.milaifontanals.musicapp.viewmodel.AlbumsViewModel;
 
@@ -105,23 +107,29 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
         holder.itemView.setOnClickListener(e -> {
 
+            LiveData<List<Track>> tracks = mViewModel.getTracks(currentAlbum);
 
-            this.notifyItemChanged(this.selectedIndex);
+            tracks.observe(context.getViewLifecycleOwner(), t -> {
 
-            if (this.selectedIndex == -1) {
-                NavDirections n = AlbumListFragmentDirections.actionAlbumListFragmentToTracklistFragment();
-                NavController nav = NavHostFragment.findNavController(context);
-                /*activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);jhg*/
-                nav.navigate(n);
+                currentAlbum.setTrackList(t);
+                mViewModel.setCurrentAlbum(currentAlbum);
 
-            } else {
-                holder.itemView.getRootView().findViewById(R.id.albumToolbar).animate().alpha(0f).withEndAction(() -> {
-                    if (holder.itemView.getRootView().findViewById(R.id.albumToolbar) != null)
-                        holder.itemView.getRootView().findViewById(R.id.albumToolbar).setVisibility(View.INVISIBLE);
-                });
-            }
-            this.selectedIndex = -1;
+                this.notifyItemChanged(this.selectedIndex);
 
+                if (this.selectedIndex == -1) {
+                    NavDirections n = AlbumListFragmentDirections.actionAlbumListFragmentToTracklistFragment();
+                    NavController nav = NavHostFragment.findNavController(context);
+                    nav.navigate(n);
+
+                } else {
+                    holder.itemView.getRootView().findViewById(R.id.albumToolbar).animate().alpha(0f).withEndAction(() -> {
+                        if (holder.itemView.getRootView().findViewById(R.id.albumToolbar) != null)
+                            holder.itemView.getRootView().findViewById(R.id.albumToolbar).setVisibility(View.INVISIBLE);
+                    });
+                }
+                this.selectedIndex = -1;
+
+            });
         });
 
         holder.itemView.setOnLongClickListener(e -> {

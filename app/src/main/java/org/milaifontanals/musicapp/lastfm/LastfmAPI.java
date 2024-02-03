@@ -24,7 +24,7 @@ public class LastfmAPI {
             for (int i = 0; i < artistsArray.length(); i++) {
                 artists.add(new Artist(artistsArray.getJSONObject(i).getString("name"),
                         artistsArray.getJSONObject(i).getJSONArray("image").getJSONObject(2).getString("#text")));
-                Log.d("TAG",artists.get(i).toString());
+                Log.d("TAG", artists.get(i).toString());
             }
         } catch (JSONException e) {
             throw new RuntimeException(e);
@@ -34,8 +34,30 @@ public class LastfmAPI {
         return artists;
     }
 
-    public static List<Album> getAlbums(String artistId) {
+    public static List<Album> getAlbumsFromArtist(String artistId) {
         String URL = "https://ws.audioscrobbler.com/2.0/?method=artist.getTopAlbums&mbid=" + artistId + "&api_key=778d0f1ed924dbc91244e1b8545b7a5c&format=json";
         return null;
+    }
+
+    public static List<Album> getAlbumsFromName(String name) {
+        List<Album> albums = new ArrayList<>();
+        String URL = "https://ws.audioscrobbler.com/2.0/?method=album.search&album=" + name + "&api_key=778d0f1ed924dbc91244e1b8545b7a5c&format=json";
+        String json = NetworkUtils.getJson(URL);
+
+        JSONObject root = null;
+        try {
+            root = new JSONObject(json);
+            JSONArray albumsArray = root.getJSONObject("results").getJSONObject("albummatches").getJSONArray("album");
+            for (int i = 0; i < albumsArray.length(); i++) {
+                albums.add(new Album(albumsArray.getJSONObject(i).getString("mbid"), albumsArray.getJSONObject(i).getString("name"),
+                        albumsArray.getJSONObject(i).getString("artist"), (short)0,
+                        albumsArray.getJSONObject(i).getJSONArray("image").getJSONObject(3).getString("#text")));
+                Log.d("TAG", albums.get(i).toString());
+            }
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+        return albums;
     }
 }
