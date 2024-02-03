@@ -75,7 +75,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull AlbumAdapter.ViewHolder holder, int position) {
 
         Album currentAlbum = list.get(position);
-        mViewModel.setCurrentAlbum(currentAlbum);
 
         if (currentAlbum.getImgBitmap() != null) {
             holder.albumImg.setImageBitmap(currentAlbum.getImgBitmap());

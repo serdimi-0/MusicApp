@@ -1,5 +1,8 @@
 package org.milaifontanals.musicapp.adapter;
 
+
+import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,7 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -15,21 +22,31 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import org.milaifontanals.musicapp.R;
+import org.milaifontanals.musicapp.lastfm.LastfmAPI;
 import org.milaifontanals.musicapp.model.Album;
 import org.milaifontanals.musicapp.model.Artist;
+import org.milaifontanals.musicapp.view.DownloadMainFragmentDirections;
+import org.milaifontanals.musicapp.viewmodel.AlbumsViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.ViewHolder> {
 
     private List<?> list;
     private Fragment context;
+    private AlbumsViewModel mViewModel;
     private int selectedIndex = -1;
     private String type;
     ImageLoader il;
 
-    public DownloadAdapter(List<Artist> list, Fragment context, String type) {
+    public DownloadAdapter(List<Artist> list, AlbumsViewModel mViewModel,Fragment context, String type) {
         this.list = list;
+        this.mViewModel = mViewModel;
         this.context = context;
         this.type = type;
         il = ImageLoader.getInstance();
@@ -90,7 +107,34 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.ViewHo
             }
 
             holder.txtDownloadName.setText(currentArtist.getName());
-        } else if (type.equals("Album")){
+
+
+            // Get top albums and navigate to fragment
+            holder.itemView.setOnClickListener(e -> {
+                NavDirections n = DownloadMainFragmentDirections.actionDownloadMainFragmentToDownloadAlbumsFragment();
+                NavController nav = NavHostFragment.findNavController(context);
+
+                Observable.fromCallable(() -> {
+                    List<Album> albumList = LastfmAPI.getAlbumsFromArtist(currentArtist.getId());
+                    if(albumList == null) albumList = new ArrayList<>();
+                    return albumList;
+                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).doOnNext(data -> {
+                    if (!data.isEmpty()) {
+                        mViewModel.setAlbumDownloadList(data);
+                        mViewModel.setCurrentArtist(currentArtist.getName());
+                        nav.navigate(n);
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context.requireContext());
+                        builder.setTitle("Something went wrong");
+                        builder.setPositiveButton("Ok",null);
+                        builder.setMessage("This artist has no albums. Please, select another one.");
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+                }).subscribe();
+            });
+
+        } else if (type.equals("Album")) {
             Album currentAlbum = (Album) list.get(position);
 
             if (currentAlbum.getImgBitmap() != null) {

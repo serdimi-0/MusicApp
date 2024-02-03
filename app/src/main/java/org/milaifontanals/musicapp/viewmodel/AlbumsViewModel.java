@@ -26,8 +26,10 @@ public class AlbumsViewModel extends AndroidViewModel {
 
     private AppDatabase db;
     private List<Album> albumList = new ArrayList<>();
+    private List<Album> albumDownloadList = new ArrayList<>();
     private Long id;
     private Album currentAlbum;
+    private String currentArtist;
     public MutableLiveData<Boolean> insertDone = new MutableLiveData<>();
 
     public AlbumsViewModel(@NonNull Application application) {
@@ -36,6 +38,22 @@ public class AlbumsViewModel extends AndroidViewModel {
         db = Room.databaseBuilder(application, AppDatabase.class, "db_musicapp.db").build();
         insertDone.setValue(false);
         /*initialInserts();*/
+    }
+
+    public String getCurrentArtist() {
+        return currentArtist;
+    }
+
+    public void setCurrentArtist(String currentArtist) {
+        this.currentArtist = currentArtist;
+    }
+
+    public List<Album> getAlbumDownloadList() {
+        return albumDownloadList;
+    }
+
+    public void setAlbumDownloadList(List<Album> albumDownloadList) {
+        this.albumDownloadList = albumDownloadList;
     }
 
     public LiveData<List<Album>> getSavedAlbums() {

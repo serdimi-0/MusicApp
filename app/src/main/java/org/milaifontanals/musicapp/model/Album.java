@@ -97,4 +97,14 @@ public class Album {
         this.imgBitmap = imgBitmap;
     }
 
+    @Override
+    public String toString() {
+        return "Album{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", artist='" + artist + '\'' +
+                ", imgSrc='" + imgSrc + '\'' +
+                ", year=" + year +
+                '}';
+    }
 }

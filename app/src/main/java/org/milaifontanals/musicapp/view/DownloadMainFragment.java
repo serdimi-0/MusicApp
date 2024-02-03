@@ -1,14 +1,20 @@
 package org.milaifontanals.musicapp.view;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -18,6 +24,7 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import org.milaifontanals.musicapp.adapter.DownloadAdapter;
 import org.milaifontanals.musicapp.databinding.FragmentDownloadMainBinding;
 import org.milaifontanals.musicapp.lastfm.LastfmAPI;
+import org.milaifontanals.musicapp.viewmodel.AlbumsViewModel;
 
 import java.util.List;
 
@@ -29,6 +36,7 @@ public class DownloadMainFragment extends Fragment {
 
     private FragmentDownloadMainBinding binding;
     private DownloadAdapter downloadAdapter;
+    private AlbumsViewModel mViewModel;
     private RecyclerView rcy;
 
     public DownloadMainFragment() {
@@ -42,6 +50,7 @@ public class DownloadMainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewModel = new ViewModelProvider(requireActivity()).get(AlbumsViewModel.class);
     }
 
     @Override
@@ -61,6 +70,8 @@ public class DownloadMainFragment extends Fragment {
 
         binding.btnSearch.setOnClickListener(e -> {
             search();
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         });
         binding.radioAlbums.setOnClickListener(e -> {
             search();
@@ -81,10 +92,10 @@ public class DownloadMainFragment extends Fragment {
         Observable.fromCallable(() -> {
             List<?> adapterList = null;
             if (binding.radioAlbums.isChecked()) {
-                downloadAdapter = new DownloadAdapter(null, this, "Album");
+                downloadAdapter = new DownloadAdapter(null, mViewModel ,this, "Album");
                 adapterList = LastfmAPI.getAlbumsFromName(text);
             } else if (binding.radioArtists.isChecked()) {
-                downloadAdapter = new DownloadAdapter(null, this, "Artist");
+                downloadAdapter = new DownloadAdapter(null, mViewModel, this, "Artist");
                 adapterList = LastfmAPI.getArtists(text);
             }
             return adapterList;
