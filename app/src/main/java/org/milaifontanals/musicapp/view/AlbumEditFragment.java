@@ -23,10 +23,7 @@ import org.milaifontanals.musicapp.viewmodel.AlbumsViewModel;
  */
 public class AlbumEditFragment extends Fragment {
 
-    private static final String ARG_ID = "id";
-
     private FragmentAlbumEditBinding binding;
-    private long mId;
     private AlbumsViewModel mViewModel;
     private Album currentAlbum;
 
@@ -34,11 +31,8 @@ public class AlbumEditFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static AlbumEditFragment newInstance(String param1, String param2) {
+    public static AlbumEditFragment newInstance() {
         AlbumEditFragment fragment = new AlbumEditFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_ID, param1);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -46,10 +40,7 @@ public class AlbumEditFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(AlbumsViewModel.class);
-        if (getArguments() != null) {
-            mId = getArguments().getLong(ARG_ID);
-            currentAlbum = mViewModel.getSavedAlbums().stream().filter(obj -> obj.getId() == mId).findFirst().orElse(null);
-        }
+        currentAlbum = mViewModel.getCurrentAlbum();
     }
 
     @Override

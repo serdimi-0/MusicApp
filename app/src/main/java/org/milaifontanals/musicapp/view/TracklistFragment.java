@@ -28,13 +28,11 @@ import org.milaifontanals.musicapp.viewmodel.AlbumsViewModel;
 
 public class TracklistFragment extends Fragment {
 
-    private static final String ARG_ID = "id";
     private FragmentTracklistBinding binding;
     private AlbumsViewModel mViewModel;
     private TrackAdapter trackAdapter;
     private Album currentAlbum;
 
-    private long mId;
 
     public TracklistFragment() {
         // Required empty public constructor
@@ -43,9 +41,6 @@ public class TracklistFragment extends Fragment {
 
     public static TracklistFragment newInstance(int id) {
         TracklistFragment fragment = new TracklistFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_ID, id);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -53,11 +48,7 @@ public class TracklistFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(AlbumsViewModel.class);
-        if (getArguments() != null) {
-            mId = getArguments().getLong(ARG_ID);
-            Log.d("TAG","Id del album: "+mId);
-            currentAlbum = mViewModel.getSavedAlbums().stream().filter(obj -> obj.getId() == mId).findFirst().orElse(null);
-        }
+        currentAlbum = mViewModel.getCurrentAlbum();
     }
 
     @Override

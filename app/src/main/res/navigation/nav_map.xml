@@ -21,20 +21,12 @@
         android:id="@+id/tracklistFragment"
         android:name="org.milaifontanals.musicapp.view.TracklistFragment"
         android:label="fragment_tracklist"
-        tools:layout="@layout/fragment_tracklist" >
-        <argument
-            android:name="id"
-            app:argType="long" />
-    </fragment>
+        tools:layout="@layout/fragment_tracklist" />
     <fragment
         android:id="@+id/albumEditFragment"
         android:name="org.milaifontanals.musicapp.view.AlbumEditFragment"
         android:label="fragment_album_edit"
-        tools:layout="@layout/fragment_album_edit" >
-        <argument
-            android:name="id"
-            app:argType="long" />
-    </fragment>
+        tools:layout="@layout/fragment_album_edit" />
     <action android:id="@+id/action_global_albumListFragment" app:destination="@id/albumListFragment" />
     <fragment
         android:id="@+id/downloadMainFragment"

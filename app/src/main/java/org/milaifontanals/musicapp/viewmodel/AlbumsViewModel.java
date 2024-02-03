@@ -1,18 +1,25 @@
 package org.milaifontanals.musicapp.viewmodel;
 
 import android.app.Application;
+import android.media.metrics.Event;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.room.Room;
 
+import org.milaifontanals.musicapp.dao.AlbumDao;
 import org.milaifontanals.musicapp.db.AppDatabase;
 import org.milaifontanals.musicapp.model.Album;
 import org.milaifontanals.musicapp.model.Track;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.rxjava3.core.Observable;
+
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class AlbumsViewModel extends AndroidViewModel {
 
@@ -27,7 +34,20 @@ public class AlbumsViewModel extends AndroidViewModel {
 
         db = Room.databaseBuilder(application, AppDatabase.class, "db_musicapp.db").build();
         insertDone.setValue(false);
+        /*initialInserts();*/
+    }
 
+    public LiveData<List<Album>> getSavedAlbums() {
+        AlbumDao albumDao = db.albumDao();
+        return albumDao.getAll();
+    }
+
+    public Album getAlbum(long id) {
+        AlbumDao albumDao = db.albumDao();
+        return albumDao.getAlbum(id);
+    }
+
+    public void initialInserts() {
         Album a1 = new Album(1L, "BBO", "Hoke", (short) 2022, "https://lastfm.freetls.fastly.net/i/u/770x0/1e9fb81bd814ed33dff0aeef21f296bf.jpg");
         Album a2 = new Album(2L, "Aladdin Sane", "David Bowie", (short) 1973, "https://lastfm.freetls.fastly.net/i/u/770x0/f861d629bcf17cde36d82b264486b34a.jpg");
         Album a3 = new Album(3L, "Random Access Memories", "Daft Punk", (short) 2013, "https://lastfm.freetls.fastly.net/i/u/770x0/11dd7e48a1f042c688bf54985f01d088.jpg");
@@ -134,17 +154,31 @@ public class AlbumsViewModel extends AndroidViewModel {
         tracks.add(new Track(6L, 12, "One More Hour", 433000, false));
         a6.setTrackList(tracks);
 
-        albumList.add(a1);
-        albumList.add(a2);
-        albumList.add(a3);
-        albumList.add(a4);
-        albumList.add(a5);
-        albumList.add(a6);
+        AlbumDao albumDao = db.albumDao();
+
+        this.insert(a1);
+        this.insert(a2);
+        this.insert(a3);
+        this.insert(a4);
+        this.insert(a5);
+        this.insert(a6);
+
     }
 
-    public List<Album> getSavedAlbums() {
-        return albumList;
+    public void insert(Album album) {
+
+        Observable.fromCallable(() -> {
+            AlbumDao albumDao = db.albumDao();
+            albumDao.insertAll(album);
+            for (Track track : album.getTrackList()) {
+                db.trackDao().insertAll(track);
+            }
+            insertDone.postValue(true);
+            return true;
+        }).subscribeOn(Schedulers.io()).subscribe();
     }
+
+
 
     public Long getId() {
         return id;

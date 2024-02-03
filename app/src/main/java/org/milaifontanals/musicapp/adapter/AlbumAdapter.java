@@ -22,23 +22,30 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import org.milaifontanals.musicapp.R;
+import org.milaifontanals.musicapp.dao.TrackDao;
 import org.milaifontanals.musicapp.model.Album;
 import org.milaifontanals.musicapp.view.AlbumListFragmentDirections;
+import org.milaifontanals.musicapp.viewmodel.AlbumsViewModel;
 
 import java.util.List;
+
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> {
 
     private List<Album> list;
     private AppCompatActivity activity;
     private Fragment context;
+    private AlbumsViewModel mViewModel;
     private int selectedIndex = -1;
     ImageLoader il;
 
-    public AlbumAdapter(List<Album> list, Fragment context, AppCompatActivity activity) {
+    public AlbumAdapter(List<Album> list, AlbumsViewModel albumsViewModel,Fragment context, AppCompatActivity activity) {
         this.list = list;
         this.context = context;
         this.activity = activity;
+        this.mViewModel = albumsViewModel;
         il = ImageLoader.getInstance();
     }
 
@@ -66,6 +73,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull AlbumAdapter.ViewHolder holder, int position) {
 
         Album currentAlbum = list.get(position);
+        mViewModel.setCurrentAlbum(currentAlbum);
 
         if (currentAlbum.getImgBitmap() != null) {
             holder.albumImg.setImageBitmap(currentAlbum.getImgBitmap());
@@ -101,7 +109,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
             this.notifyItemChanged(this.selectedIndex);
 
             if (this.selectedIndex == -1) {
-                NavDirections n = AlbumListFragmentDirections.actionAlbumListFragmentToTracklistFragment(currentAlbum.getId());
+                NavDirections n = AlbumListFragmentDirections.actionAlbumListFragmentToTracklistFragment();
                 NavController nav = NavHostFragment.findNavController(context);
                 /*activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);jhg*/
                 nav.navigate(n);
