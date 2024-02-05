@@ -25,4 +25,7 @@ public interface TrackDao {
 
     @Update
     void update(Track track);
+
+    @Query("DELETE FROM track WHERE album_id = :albumId")
+    void deleteAllFromAlbum(String albumId);
 }

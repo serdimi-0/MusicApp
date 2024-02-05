@@ -87,13 +87,11 @@ public class AlbumListFragment extends Fragment {
             Handler handler = new Handler(Looper.getMainLooper());
 
             Album selectedAlbum = albumAdapter.getList().get(albumAdapter.getSelectedIndex());
-            /*mViewModel.setCurrentAlbum(selectedAlbum);*/
 
             NavDirections n = AlbumListFragmentDirections.actionAlbumListFragmentToAlbumEditFragment();
             NavController nav = NavHostFragment.findNavController(this);
             nav.navigate(n);
 
-            // Timeout para que no desaparezca la toolbar antes de llegar al Intent
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -116,7 +114,8 @@ public class AlbumListFragment extends Fragment {
             builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    /*mViewModel.getSavedAlbums().remove(selectedAlbum);
+                    albumAdapter.getList().remove(selectedAlbum);
+                    mViewModel.deleteAlbum(selectedAlbum);
 
                     albumAdapter.notifyItemRemoved(albumAdapter.getSelectedIndex());
                     albumAdapter.setSelectedIndex(-1);
@@ -124,7 +123,7 @@ public class AlbumListFragment extends Fragment {
                     binding.albumToolbar.animate().alpha(0f).withEndAction(() -> {
                         if (binding.albumToolbar != null)
                             binding.albumToolbar.setVisibility(View.INVISIBLE);
-                    });*/
+                    });
                 }
             });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

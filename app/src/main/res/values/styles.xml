@@ -9,4 +9,12 @@
     <style name="DrawerStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@color/light</item>
     </style>
+
+    <style name="MySpinnerDatePickerStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:datePickerStyle">@style/MySpinnerDatePicker</item>
+    </style>
+
+    <style name="MySpinnerDatePicker" parent="android:Widget.Material.Light.DatePicker">
+        <item name="android:datePickerMode">spinner</item>
+    </style>
 </resources>

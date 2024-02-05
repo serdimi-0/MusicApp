@@ -29,6 +29,7 @@ import org.milaifontanals.musicapp.model.Track;
 import org.milaifontanals.musicapp.view.AlbumListFragmentDirections;
 import org.milaifontanals.musicapp.viewmodel.AlbumsViewModel;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Observable;
@@ -75,6 +76,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull AlbumAdapter.ViewHolder holder, int position) {
 
         Album currentAlbum = list.get(position);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
 
         if (currentAlbum.getImgBitmap() != null) {
             holder.albumImg.setImageBitmap(currentAlbum.getImgBitmap());
@@ -102,7 +104,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
         holder.albumTitle.setText(currentAlbum.getTitle());
         holder.albumArtist.setText(currentAlbum.getArtist());
-        holder.albumYear.setText("" + currentAlbum.getYear());
+        holder.albumYear.setText(sdf.format(currentAlbum.getReleaseDate()));
 
         holder.itemView.setOnClickListener(e -> {
 
@@ -136,6 +138,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
             this.selectedIndex = holder.getAdapterPosition();
             this.notifyItemChanged(posicioAnterior);
             this.notifyItemChanged(selectedIndex);
+
+            mViewModel.setCurrentAlbum(currentAlbum);
 
             holder.itemView.getRootView().findViewById(R.id.albumToolbar).setVisibility(View.VISIBLE);
             holder.itemView.getRootView().findViewById(R.id.albumToolbar).animate().alpha(1f);

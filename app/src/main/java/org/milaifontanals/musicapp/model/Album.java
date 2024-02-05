@@ -10,6 +10,7 @@ import androidx.room.PrimaryKey;
 import androidx.room.Relation;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -25,20 +26,21 @@ public class Album {
     private String imgSrc;
     @Ignore
     private Bitmap imgBitmap;
-    @ColumnInfo(name = "year")
-    private short year;
+    @ColumnInfo(name = "release_date")
+    private Date releaseDate;
 
     @Ignore
     private List<Track> trackList;
 
-    public Album() {}
+    public Album() {
+    }
 
-    public Album(String id, String title, String artist, short year, String imgSrc) {
+    public Album(String id, String title, String artist, Date releaseDate, String imgSrc) {
         this.id = id;
         this.title = title;
         this.artist = artist;
         this.imgSrc = imgSrc;
-        this.year = year;
+        this.releaseDate = releaseDate;
     }
 
     public String getId() {
@@ -73,12 +75,12 @@ public class Album {
         this.imgSrc = imgSrc;
     }
 
-    public short getYear() {
-        return year;
+    public Date getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setYear(short year) {
-        this.year = year;
+    public void setReleaseDate(Date releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public List<Track> getTrackList() {
@@ -99,12 +101,6 @@ public class Album {
 
     @Override
     public String toString() {
-        return "Album{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", artist='" + artist + '\'' +
-                ", imgSrc='" + imgSrc + '\'' +
-                ", year=" + year +
-                '}';
+        return "Album{" + "id='" + id + '\'' + ", title='" + title + '\'' + ", artist='" + artist + '\'' + ", imgSrc='" + imgSrc + '\'' + ", date=" + releaseDate + '}';
     }
 }

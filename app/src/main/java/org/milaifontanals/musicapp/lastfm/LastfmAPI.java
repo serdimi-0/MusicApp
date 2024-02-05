@@ -43,7 +43,7 @@ public class LastfmAPI {
 
     public static List<Album> getAlbumsFromArtist(String artistId) {
 
-        if(artistId==null) return null;
+        if (artistId == null) return null;
 
         List<Album> albums = new ArrayList<>();
         String URL = "https://ws.audioscrobbler.com/2.0/?method=artist.getTopAlbums&mbid=" + artistId + "&api_key=778d0f1ed924dbc91244e1b8545b7a5c&format=json";
@@ -62,7 +62,7 @@ public class LastfmAPI {
                     id = null;
                 }
                 albums.add(new Album(id, albumsArray.getJSONObject(i).getString("name"),
-                        albumsArray.getJSONObject(i).getJSONObject("artist").getString("name"), (short) 0,
+                        albumsArray.getJSONObject(i).getJSONObject("artist").getString("name"), null,
                         albumsArray.getJSONObject(i).getJSONArray("image").getJSONObject(3).getString("#text")));
                 Log.d("TAG", albums.get(i).toString());
             }
@@ -84,7 +84,7 @@ public class LastfmAPI {
             JSONArray albumsArray = root.getJSONObject("results").getJSONObject("albummatches").getJSONArray("album");
             for (int i = 0; i < albumsArray.length(); i++) {
                 albums.add(new Album(albumsArray.getJSONObject(i).getString("mbid"), albumsArray.getJSONObject(i).getString("name"),
-                        albumsArray.getJSONObject(i).getString("artist"), (short) 0,
+                        albumsArray.getJSONObject(i).getString("artist"), null,
                         albumsArray.getJSONObject(i).getJSONArray("image").getJSONObject(3).getString("#text")));
                 Log.d("TAG", albums.get(i).toString());
             }
@@ -93,5 +93,27 @@ public class LastfmAPI {
         }
 
         return albums;
+    }
+
+    public static Album getAlbumInfo(String artist, String album) {
+        List<Album> albums = new ArrayList<>();
+        String URL = "https://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=778d0f1ed924dbc91244e1b8545b7a5c&artist=" + artist + "&album=" + album + "&format=json";
+        String json = NetworkUtils.getJson(URL);
+
+        JSONObject root = null;
+        try {
+            root = new JSONObject(json);
+            JSONArray albumsArray = root.getJSONObject("results").getJSONObject("albummatches").getJSONArray("album");
+            for (int i = 0; i < albumsArray.length(); i++) {
+                albums.add(new Album(albumsArray.getJSONObject(i).getString("mbid"), albumsArray.getJSONObject(i).getString("name"),
+                        albumsArray.getJSONObject(i).getString("artist"), null,
+                        albumsArray.getJSONObject(i).getJSONArray("image").getJSONObject(3).getString("#text")));
+                Log.d("TAG", albums.get(i).toString());
+            }
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+        return null;
     }
 }
