@@ -3,20 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:padding="10dp"
+    android:paddingHorizontal="20dp"
     android:background="@color/light"
     android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:padding="20dp"
         android:text="Edit Song"
-        android:textSize="30dp"/>
+        android:textSize="20dp"/>
 
     <View
         android:layout_width="match_parent"
+        android:layout_marginHorizontal="10dp"
         android:layout_height="1dp"
+        android:alpha="0.5"
         android:background="@color/dark"/>
 
     <LinearLayout
@@ -26,17 +28,39 @@
         android:layout_margin="10dp"
         android:orientation="horizontal">
 
-        <NumberPicker
-            android:textColor="@color/dark"
-            android:id="@+id/numberSpinner"
-            android:layout_margin="10dp"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/btnUp"
+                android:background="@color/light"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/up"/>
+            <TextView
+                android:id="@+id/txtTrackNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"/>
+            <ImageButton
+                android:id="@+id/btnDown"
+                android:background="@color/light"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:scaleY="-1"
+                android:src="@drawable/up"/>
+
+        </LinearLayout>
 
         <EditText
+            android:id="@+id/edtTitle"
             android:textColor="@color/dark"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="60dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -47,12 +71,14 @@
         android:orientation="horizontal">
 
         <NumberPicker
+            android:id="@+id/minuteSpinner"
             android:textColor="@color/dark"
             android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <NumberPicker
+            android:id="@+id/secondSpinner"
             android:textColor="@color/dark"
             android:layout_margin="10dp"
             android:layout_width="wrap_content"
@@ -63,13 +89,13 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:alpha="0.5"
         android:background="@color/dark"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_margin="10dp"
         android:orientation="horizontal">
 
         <Button
@@ -79,6 +105,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Cancel"/>
+
 
         <Button
             android:background="@color/transparent"

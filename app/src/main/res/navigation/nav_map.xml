@@ -21,7 +21,11 @@
         android:id="@+id/tracklistFragment"
         android:name="org.milaifontanals.musicapp.view.TracklistFragment"
         android:label="fragment_tracklist"
-        tools:layout="@layout/fragment_tracklist" />
+        tools:layout="@layout/fragment_tracklist" >
+        <action
+            android:id="@+id/action_tracklistFragment_to_trackEditDialogFragment"
+            app:destination="@id/trackEditDialogFragment" />
+    </fragment>
     <fragment
         android:id="@+id/albumEditFragment"
         android:name="org.milaifontanals.musicapp.view.AlbumEditFragment"
@@ -42,4 +46,8 @@
         android:name="org.milaifontanals.musicapp.view.DownloadAlbumsFragment"
         android:label="fragment_download_albums"
         tools:layout="@layout/fragment_download_albums" />
+    <dialog
+        android:id="@+id/trackEditDialogFragment"
+        android:name="org.milaifontanals.musicapp.view.TrackEditDialogFragment"
+        android:label="TrackEditDialogFragment" />
 </navigation>

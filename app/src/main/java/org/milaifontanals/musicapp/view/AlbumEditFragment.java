@@ -72,13 +72,12 @@ public class AlbumEditFragment extends Fragment {
         ImageLoader.getInstance().init(conf);
 
         ImageLoader loader = ImageLoader.getInstance();
-        loader.displayImage(currentAlbum.getImgSrc(),(ImageView) binding.albumEditImg);
-
-
-        binding.albumEditName.setText(currentAlbum.getTitle());
-        binding.albumEditArtist.setText(currentAlbum.getArtist());
-        binding.albumEditDate.setText(sdf.format(currentAlbum.getReleaseDate()));
-
+        if (currentAlbum != null) {
+            loader.displayImage(currentAlbum.getImgSrc(), (ImageView) binding.albumEditImg);
+            binding.albumEditName.setText(currentAlbum.getTitle());
+            binding.albumEditArtist.setText(currentAlbum.getArtist());
+            binding.albumEditDate.setText(sdf.format(currentAlbum.getReleaseDate()));
+        }
         binding.datePickerBtn.setOnClickListener(e -> {
             DatePickerDialog datePickerDialog = new DatePickerDialog(v.getContext(), R.style.MySpinnerDatePickerStyle, (view, year, month, dayOfMonth) -> {
                 binding.albumEditDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
@@ -96,16 +95,19 @@ public class AlbumEditFragment extends Fragment {
 
         binding.albumEditName.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
                 if (!binding.albumEditName.getText().toString().equals(currentAlbum.getTitle()) &&
                         !binding.albumEditName.getText().toString().isEmpty()) {
                     binding.albumEditSave.setVisibility(View.VISIBLE);
-                } else{
+                } else {
                     if (binding.albumEditName.getText().toString().isEmpty()) {
                         binding.albumEditName.setError("Album name is required");
                     }
@@ -115,16 +117,19 @@ public class AlbumEditFragment extends Fragment {
         });
         binding.albumEditArtist.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
                 if (!binding.albumEditArtist.getText().toString().equals(currentAlbum.getArtist()) &&
                         !binding.albumEditArtist.getText().toString().isEmpty()) {
                     binding.albumEditSave.setVisibility(View.VISIBLE);
-                } else{
+                } else {
                     if (binding.albumEditArtist.getText().toString().isEmpty()) {
                         binding.albumEditArtist.setError("Album artist is required");
                     }

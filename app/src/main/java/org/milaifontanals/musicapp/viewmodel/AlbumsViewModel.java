@@ -33,6 +33,7 @@ public class AlbumsViewModel extends AndroidViewModel {
     private Long id;
     private Album currentAlbum;
     private String currentArtist;
+    private Track currentTrack;
     public MutableLiveData<Boolean> insertDone = new MutableLiveData<>();
 
     public AlbumsViewModel(@NonNull Application application) {
@@ -41,6 +42,14 @@ public class AlbumsViewModel extends AndroidViewModel {
         db = Room.databaseBuilder(application, AppDatabase.class, "db_musicapp.db").build();
         insertDone.setValue(false);
         /*initialInserts();*/
+    }
+
+    public Track getCurrentTrack() {
+        return currentTrack;
+    }
+
+    public void setCurrentTrack(Track currentTrack) {
+        this.currentTrack = currentTrack;
     }
 
     public String getCurrentArtist() {

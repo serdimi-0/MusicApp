@@ -4,6 +4,9 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,18 +55,12 @@ public class TracklistFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentTracklistBinding.inflate(getLayoutInflater());
         View v = binding.getRoot();
 
-        ImageLoaderConfiguration conf = new ImageLoaderConfiguration.Builder(v.getContext())
-                .denyCacheImageMultipleSizesInMemory()
-                .diskCacheSize(2048)
-                .tasksProcessingOrder(QueueProcessingType.LIFO)
-                .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
-                .build();
+        ImageLoaderConfiguration conf = new ImageLoaderConfiguration.Builder(v.getContext()).denyCacheImageMultipleSizesInMemory().diskCacheSize(2048).tasksProcessingOrder(QueueProcessingType.LIFO).defaultDisplayImageOptions(DisplayImageOptions.createSimple()).build();
         ImageLoader.getInstance().init(conf);
 
         /*
@@ -72,7 +69,7 @@ public class TracklistFragment extends Fragment {
         binding.albumArtistTracklist.setText(currentAlbum.getArtist());
         binding.albumTitleTracklist.setText(currentAlbum.getTitle());
         ImageLoader loader = ImageLoader.getInstance();
-        loader.displayImage(currentAlbum.getImgSrc(),(ImageView) binding.albumImgTracklist);
+        loader.displayImage(currentAlbum.getImgSrc(), (ImageView) binding.albumImgTracklist);
 
         /*
          * Tracklist
@@ -83,11 +80,18 @@ public class TracklistFragment extends Fragment {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
 
-        trackAdapter = new TrackAdapter(currentAlbum.getTrackList(),v.getContext());
+        trackAdapter = new TrackAdapter(currentAlbum.getTrackList(), this, mViewModel);
         RecyclerView rcyTracks = binding.rcyTracklist;
         rcyTracks.setLayoutManager(new LinearLayoutManager(v.getContext(), LinearLayoutManager.VERTICAL, false));
         rcyTracks.setHasFixedSize(true);
         rcyTracks.setAdapter(trackAdapter);
+
+        binding.fab.setOnClickListener(e -> {
+            mViewModel.setCurrentTrack(null);
+            NavDirections n = TracklistFragmentDirections.actionTracklistFragmentToTrackEditDialogFragment();
+            NavController nav = NavHostFragment.findNavController(this);
+            nav.navigate(n);
+        });
 
         return v;
     }

@@ -138,6 +138,12 @@ public class AlbumListFragment extends Fragment {
 
         });
 
+        binding.fab.setOnClickListener(e -> {
+            NavController nav = NavHostFragment.findNavController(this);
+            mViewModel.setCurrentAlbum(null);
+            nav.navigate(AlbumListFragmentDirections.actionAlbumListFragmentToAlbumEditFragment());
+        });
+
         return v;
     }
 

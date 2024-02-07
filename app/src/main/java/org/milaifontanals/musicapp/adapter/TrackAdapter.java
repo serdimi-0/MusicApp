@@ -8,10 +8,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.milaifontanals.musicapp.R;
 import org.milaifontanals.musicapp.model.Track;
+import org.milaifontanals.musicapp.view.AlbumListFragmentDirections;
+import org.milaifontanals.musicapp.view.TrackEditDialogFragmentDirections;
+import org.milaifontanals.musicapp.view.TracklistFragmentDirections;
+import org.milaifontanals.musicapp.viewmodel.AlbumsViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,10 +28,12 @@ import java.util.List;
 public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.ViewHolder> {
 
     private List<Track> trackList;
-    private Context context;
+    Fragment context;
+    private AlbumsViewModel mViewModel;
 
-    public TrackAdapter(List<Track> trackList, Context context) {
+    public TrackAdapter(List<Track> trackList, Fragment context, AlbumsViewModel albumsViewModel) {
         this.trackList = trackList;
+        this.mViewModel = albumsViewModel;
         this.context = context;
     }
 
@@ -45,20 +55,29 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.ViewHolder> 
         SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
         holder.trackDuration.setText(sdf.format(d));
 
-        if (currentTrack.isFav()){
+        if (currentTrack.isFav()) {
             holder.trackFav.setImageResource(R.drawable.heart_active);
         } else {
             holder.trackFav.setImageResource(R.drawable.heart_unactive);
         }
 
         holder.trackFav.setOnClickListener(e -> {
-            if (currentTrack.isFav()){
+            if (currentTrack.isFav()) {
                 currentTrack.setFav(false);
                 holder.trackFav.setImageResource(R.drawable.heart_unactive);
             } else {
                 currentTrack.setFav(true);
                 holder.trackFav.setImageResource(R.drawable.heart_active);
             }
+        });
+
+        holder.itemView.setOnClickListener(e -> {
+
+            mViewModel.setCurrentTrack(currentTrack);
+            NavDirections n = TracklistFragmentDirections.actionTracklistFragmentToTrackEditDialogFragment();
+            NavController nav = NavHostFragment.findNavController(context);
+            nav.navigate(n);
+
         });
 
     }
