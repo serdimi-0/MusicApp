@@ -43,6 +43,13 @@ public class Album {
         this.releaseDate = releaseDate;
     }
 
+    public Album(String id, String title, String artist, Date releaseDate) {
+        this.id = id;
+        this.title = title;
+        this.artist = artist;
+        this.releaseDate = releaseDate;
+    }
+
     public String getId() {
         return id;
     }

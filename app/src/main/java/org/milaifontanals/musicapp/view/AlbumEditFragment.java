@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,11 @@ import org.milaifontanals.musicapp.databinding.FragmentAlbumEditBinding;
 import org.milaifontanals.musicapp.model.Album;
 import org.milaifontanals.musicapp.viewmodel.AlbumsViewModel;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,6 +43,7 @@ public class AlbumEditFragment extends Fragment {
     private FragmentAlbumEditBinding binding;
     private AlbumsViewModel mViewModel;
     private Album currentAlbum;
+    private Calendar currentDate;
 
     public AlbumEditFragment() {
         // Required empty public constructor
@@ -51,8 +57,14 @@ public class AlbumEditFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        currentDate = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
         mViewModel = new ViewModelProvider(requireActivity()).get(AlbumsViewModel.class);
         currentAlbum = mViewModel.getCurrentAlbum();
+        if (currentAlbum == null) {
+            currentDate.setTime(new Date());
+        } else {
+            currentDate.setTime(currentAlbum.getReleaseDate());
+        }
     }
 
     @Override
@@ -77,13 +89,18 @@ public class AlbumEditFragment extends Fragment {
             binding.albumEditName.setText(currentAlbum.getTitle());
             binding.albumEditArtist.setText(currentAlbum.getArtist());
             binding.albumEditDate.setText(sdf.format(currentAlbum.getReleaseDate()));
+            Log.d("AlbumEditFragment", "onCreateView: " + currentDate);
         }
         binding.datePickerBtn.setOnClickListener(e -> {
+
             DatePickerDialog datePickerDialog = new DatePickerDialog(v.getContext(), R.style.MySpinnerDatePickerStyle, (view, year, month, dayOfMonth) -> {
                 binding.albumEditDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
                 binding.albumEditSave.setVisibility(View.VISIBLE);
-            }, 0, 0, 1);
-
+                try {
+                    currentDate.setTime(sdf.parse(dayOfMonth + "/" + (month + 1) + "/" + year));
+                } catch (ParseException ex) {
+                }
+            }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DAY_OF_MONTH));
 
             datePickerDialog.show();
             Button positiveButton = datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE);
@@ -104,14 +121,16 @@ public class AlbumEditFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!binding.albumEditName.getText().toString().equals(currentAlbum.getTitle()) &&
-                        !binding.albumEditName.getText().toString().isEmpty()) {
-                    binding.albumEditSave.setVisibility(View.VISIBLE);
-                } else {
-                    if (binding.albumEditName.getText().toString().isEmpty()) {
-                        binding.albumEditName.setError("Album name is required");
+                if (currentAlbum != null) {
+                    if (!binding.albumEditName.getText().toString().equals(currentAlbum.getTitle()) &&
+                            !binding.albumEditName.getText().toString().isEmpty()) {
+                        binding.albumEditSave.setVisibility(View.VISIBLE);
+                    } else {
+                        if (binding.albumEditName.getText().toString().isEmpty()) {
+                            binding.albumEditName.setError("Album name is required");
+                        }
+                        binding.albumEditSave.setVisibility(View.INVISIBLE);
                     }
-                    binding.albumEditSave.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -126,22 +145,45 @@ public class AlbumEditFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!binding.albumEditArtist.getText().toString().equals(currentAlbum.getArtist()) &&
-                        !binding.albumEditArtist.getText().toString().isEmpty()) {
-                    binding.albumEditSave.setVisibility(View.VISIBLE);
-                } else {
-                    if (binding.albumEditArtist.getText().toString().isEmpty()) {
-                        binding.albumEditArtist.setError("Album artist is required");
+                if (currentAlbum != null) {
+                    if (!binding.albumEditArtist.getText().toString().equals(currentAlbum.getArtist()) &&
+                            !binding.albumEditArtist.getText().toString().isEmpty()) {
+                        binding.albumEditSave.setVisibility(View.VISIBLE);
+                    } else {
+                        if (binding.albumEditArtist.getText().toString().isEmpty()) {
+                            binding.albumEditArtist.setError("Album artist is required");
+                        }
+                        binding.albumEditSave.setVisibility(View.INVISIBLE);
                     }
-                    binding.albumEditSave.setVisibility(View.INVISIBLE);
                 }
             }
         });
 
 
+        binding.albumEditSave.setOnClickListener(e -> {
+            if (currentAlbum != null) {
+                currentAlbum.setTitle(binding.albumEditName.getText().toString());
+                currentAlbum.setArtist(binding.albumEditArtist.getText().toString());
+                currentAlbum.setReleaseDate(currentDate.getTime());
+                mViewModel.updateAlbum(currentAlbum);
+                binding.albumEditSave.setVisibility(View.INVISIBLE);
+            } else{
+                Album newAlbum = new Album(generateId(),binding.albumEditName.getText().toString(),
+                        binding.albumEditArtist.getText().toString(),
+                        currentDate.getTime());
+                mViewModel.insertAlbum(newAlbum);
+                binding.albumEditSave.setVisibility(View.INVISIBLE);
+
+            }
+        });
+
         /*setSupportActionBar(findViewById(R.id.albumEditToolbar));
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
         return v;
+    }
+
+    private String generateId() {
+        return String.valueOf(System.currentTimeMillis() + (Math.random() * 100));
     }
 }

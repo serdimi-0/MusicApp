@@ -7,7 +7,9 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -45,6 +47,10 @@ public class TrackEditDialogFragment extends DialogFragment {
         NumberPicker secondPicker = v.findViewById(R.id.secondSpinner);
         EditText title = v.findViewById(R.id.edtTitle);
         TextView number = v.findViewById(R.id.txtTrackNumber);
+        Button save = v.findViewById(R.id.btnSave);
+        Button cancel = v.findViewById(R.id.btnCancel);
+        ImageButton up = v.findViewById(R.id.btnUp);
+        ImageButton down = v.findViewById(R.id.btnDown);
 
 
         minutePicker.setMaxValue(59);
@@ -58,6 +64,17 @@ public class TrackEditDialogFragment extends DialogFragment {
             title.setText(currentTrack.getTitle());
             number.setText(String.valueOf(currentTrack.getNumber()));
         }
+
+        up.setOnClickListener(e -> {
+            int n = Integer.parseInt(number.getText().toString());
+            number.setText(String.valueOf(n+1));
+        });
+        down.setOnClickListener(e -> {
+            int n = Integer.parseInt(number.getText().toString());
+            number.setText(String.valueOf(n-1));
+        });
+
+        cancel.setOnClickListener(e -> dismiss());
 
 
         return v;

@@ -63,7 +63,7 @@
             android:layout_margin="20dp"
             android:enabled="false"
             android:text="DD/MM/YYYY"
-            android:textColor="@color/dark"
+            android:textColor="@color/gray"
             android:textSize="18dp" />
     </LinearLayout>
 

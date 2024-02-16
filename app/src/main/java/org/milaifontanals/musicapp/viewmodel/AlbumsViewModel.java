@@ -73,7 +73,7 @@ public class AlbumsViewModel extends AndroidViewModel {
         return albumDao.getAll();
     }
 
-    public Album getAlbum(long id) {
+    public Album getAlbum(String id) {
         AlbumDao albumDao = db.albumDao();
         return albumDao.getAlbum(id);
     }
@@ -134,12 +134,12 @@ public class AlbumsViewModel extends AndroidViewModel {
         Album a5;
         Album a6;
         try {
-            a1 = new Album("1", "BBO", "Hoke", sdf.parse("2022-01-01"), "https://lastfm.freetls.fastly.net/i/u/770x0/1e9fb81bd814ed33dff0aeef21f296bf.jpg");
-            a2 = new Album("2", "Aladdin Sane", "David Bowie", sdf.parse("1973-01-01"), "https://lastfm.freetls.fastly.net/i/u/770x0/f861d629bcf17cde36d82b264486b34a.jpg");
-            a3 = new Album("3", "Random Access Memories", "Daft Punk", sdf.parse("2013-01-01"), "https://lastfm.freetls.fastly.net/i/u/770x0/11dd7e48a1f042c688bf54985f01d088.jpg");
-            a4 = new Album("4", "IGOR", "Tyler, The Creator", sdf.parse("2019-01-01"), "https://lastfm.freetls.fastly.net/i/u/770x0/e150fa362c89b8f1d92d883ae828b7ef.jpg");
-            a5 = new Album("5", "Drunk", "Thundercat", sdf.parse("2017-01-01"), "https://lastfm.freetls.fastly.net/i/u/770x0/17311ac4702bbc6245e9ee2958630c8f.jpg");
-            a6 = new Album("6", "The Slow Rush", "Tame Impala", sdf.parse("2020-01-01"), "https://lastfm.freetls.fastly.net/i/u/770x0/832ade6a35ec2a224ea9a5be326b5de4.jpg");
+            a1 = new Album("1","BBO", "Hoke", sdf.parse("2022-01-01"), "https://lastfm.freetls.fastly.net/i/u/770x0/1e9fb81bd814ed33dff0aeef21f296bf.jpg");
+            a2 = new Album("2","Aladdin Sane", "David Bowie", sdf.parse("1973-01-01"), "https://lastfm.freetls.fastly.net/i/u/770x0/f861d629bcf17cde36d82b264486b34a.jpg");
+            a3 = new Album("3","Random Access Memories", "Daft Punk", sdf.parse("2013-01-01"), "https://lastfm.freetls.fastly.net/i/u/770x0/11dd7e48a1f042c688bf54985f01d088.jpg");
+            a4 = new Album("4","IGOR", "Tyler, The Creator", sdf.parse("2019-01-01"), "https://lastfm.freetls.fastly.net/i/u/770x0/e150fa362c89b8f1d92d883ae828b7ef.jpg");
+            a5 = new Album("5","Drunk", "Thundercat", sdf.parse("2017-01-01"), "https://lastfm.freetls.fastly.net/i/u/770x0/17311ac4702bbc6245e9ee2958630c8f.jpg");
+            a6 = new Album("6","The Slow Rush", "Tame Impala", sdf.parse("2020-01-01"), "https://lastfm.freetls.fastly.net/i/u/770x0/832ade6a35ec2a224ea9a5be326b5de4.jpg");
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
@@ -251,5 +251,21 @@ public class AlbumsViewModel extends AndroidViewModel {
         this.insert(a5);
         this.insert(a6);
 
+    }
+
+    public void updateAlbum(Album currentAlbum) {
+        Observable.fromCallable(() -> {
+            AlbumDao albumDao = db.albumDao();
+            albumDao.update(currentAlbum);
+            return true;
+        }).subscribeOn(Schedulers.io()).subscribe();
+    }
+
+    public void insertAlbum(Album album) {
+        Observable.fromCallable(() -> {
+            AlbumDao albumDao = db.albumDao();
+            albumDao.insertAll(album);
+            return true;
+        }).subscribeOn(Schedulers.io()).subscribe();
     }
 }

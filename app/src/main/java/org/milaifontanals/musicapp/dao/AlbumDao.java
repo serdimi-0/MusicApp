@@ -18,7 +18,7 @@ public interface AlbumDao {
     LiveData<List<Album>> getAll();
 
     @Query("SELECT * FROM album WHERE id=:albumId")
-    Album getAlbum(long albumId);
+    Album getAlbum(String albumId);
 
     @Insert
     void insertAll(Album... albums);
