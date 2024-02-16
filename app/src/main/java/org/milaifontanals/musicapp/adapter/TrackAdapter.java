@@ -69,14 +69,15 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.ViewHolder> 
                 currentTrack.setFav(true);
                 holder.trackFav.setImageResource(R.drawable.heart_active);
             }
+            mViewModel.updateTrack(currentTrack);
         });
 
         holder.itemView.setOnClickListener(e -> {
 
-            mViewModel.setCurrentTrack(currentTrack);
+            /*mViewModel.setCurrentTrack(currentTrack);
             NavDirections n = TracklistFragmentDirections.actionTracklistFragmentToTrackEditDialogFragment();
             NavController nav = NavHostFragment.findNavController(context);
-            nav.navigate(n);
+            nav.navigate(n);*/
 
         });
 

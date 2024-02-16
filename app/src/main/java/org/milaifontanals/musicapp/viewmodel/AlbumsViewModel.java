@@ -261,10 +261,26 @@ public class AlbumsViewModel extends AndroidViewModel {
         }).subscribeOn(Schedulers.io()).subscribe();
     }
 
+    public void updateTrack(Track currentTrack) {
+        Observable.fromCallable(() -> {
+            TrackDao trackDao = db.trackDao();
+            trackDao.update(currentTrack);
+            return true;
+        }).subscribeOn(Schedulers.io()).subscribe();
+    }
+
     public void insertAlbum(Album album) {
         Observable.fromCallable(() -> {
             AlbumDao albumDao = db.albumDao();
             albumDao.insertAll(album);
+            return true;
+        }).subscribeOn(Schedulers.io()).subscribe();
+    }
+
+    public void insertTrack(Track track) {
+        Observable.fromCallable(() -> {
+            TrackDao trackDao = db.trackDao();
+            trackDao.insertAll(track);
             return true;
         }).subscribeOn(Schedulers.io()).subscribe();
     }
