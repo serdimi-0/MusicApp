@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +22,13 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
+import org.milaifontanals.musicapp.R;
 import org.milaifontanals.musicapp.adapter.DownloadAdapter;
 import org.milaifontanals.musicapp.databinding.FragmentDownloadMainBinding;
 import org.milaifontanals.musicapp.lastfm.LastfmAPI;
 import org.milaifontanals.musicapp.viewmodel.AlbumsViewModel;
 
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -69,17 +72,34 @@ public class DownloadMainFragment extends Fragment {
 
 
         binding.btnSearch.setOnClickListener(e -> {
+            binding.downloadToolbar.animate().alpha(0f).withEndAction(() -> {
+                if (binding.downloadToolbar != null)
+                    binding.downloadToolbar.setVisibility(View.INVISIBLE);
+            });
             search();
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         });
         binding.radioAlbums.setOnClickListener(e -> {
+            binding.downloadToolbar.animate().alpha(0f).withEndAction(() -> {
+                if (binding.downloadToolbar != null)
+                    binding.downloadToolbar.setVisibility(View.INVISIBLE);
+            });
             search();
         });
         binding.radioArtists.setOnClickListener(e -> {
+            binding.downloadToolbar.animate().alpha(0f).withEndAction(() -> {
+                if (binding.downloadToolbar != null)
+                    binding.downloadToolbar.setVisibility(View.INVISIBLE);
+            });
             search();
         });
 
+        binding.btnDownload.setOnClickListener(v1 -> {
+            Log.d("TAG", mViewModel.getCurrentAlbum().toString());
+            mViewModel.getCurrentAlbum().setReleaseDate(new Date());
+            mViewModel.insertAlbum(mViewModel.getCurrentAlbum());
+        });
 
         return v;
     }

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,8 @@ import org.milaifontanals.musicapp.adapter.AlbumDownloadAdapter;
 import org.milaifontanals.musicapp.databinding.FragmentDownloadAlbumsBinding;
 import org.milaifontanals.musicapp.utils.GridSpacingItemDecoration;
 import org.milaifontanals.musicapp.viewmodel.AlbumsViewModel;
+
+import java.util.Date;
 
 public class DownloadAlbumsFragment extends Fragment {
 
@@ -54,6 +57,12 @@ public class DownloadAlbumsFragment extends Fragment {
         ImageLoader.getInstance().init(conf);
 
         binding.artistName.setText(mViewModel.getCurrentArtist());
+
+        binding.btnDownloadAlbum.setOnClickListener(v1 -> {
+            Log.d("TAG", mViewModel.getCurrentAlbum().toString());
+            mViewModel.getCurrentAlbum().setReleaseDate(new Date());
+            mViewModel.insertAlbum(mViewModel.getCurrentAlbum());
+        });
 
         RecyclerView rcyAlbums = binding.rcyArtistAlbums;
         rcyAlbums.setLayoutManager(new GridLayoutManager(requireContext(), 3));

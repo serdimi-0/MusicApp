@@ -30,7 +30,7 @@ public class AlbumDownloadAdapter extends RecyclerView.Adapter<AlbumDownloadAdap
     ImageLoader il;
     private int selectedIndex = -1;
 
-    public AlbumDownloadAdapter(List<Album> list, AlbumsViewModel albumsViewModel,Fragment context) {
+    public AlbumDownloadAdapter(List<Album> list, AlbumsViewModel albumsViewModel, Fragment context) {
         this.list = list;
         this.context = context;
         this.mViewModel = albumsViewModel;
@@ -87,6 +87,24 @@ public class AlbumDownloadAdapter extends RecyclerView.Adapter<AlbumDownloadAdap
         }
         holder.albumTitle.setText(currentAlbum.getTitle());
 
+        holder.itemView.setOnClickListener(e -> {
+            int posicioAnterior = this.selectedIndex;
+            this.selectedIndex = holder.getAdapterPosition();
+            this.notifyItemChanged(posicioAnterior);
+            this.notifyItemChanged(selectedIndex);
+
+            mViewModel.setCurrentAlbum(currentAlbum);
+
+            holder.itemView.getRootView().findViewById(R.id.downloadAlbumToolbar).setVisibility(View.VISIBLE);
+            holder.itemView.getRootView().findViewById(R.id.downloadAlbumToolbar).animate().alpha(1f);
+
+        });
+
+        if (position == this.selectedIndex) {
+            holder.itemView.findViewById(R.id.albumCard).setBackgroundResource(R.color.lightPink);
+        } else {
+            holder.itemView.findViewById(R.id.albumCard).setBackgroundResource(R.color.light);
+        }
     }
 
     @Override
@@ -97,6 +115,7 @@ public class AlbumDownloadAdapter extends RecyclerView.Adapter<AlbumDownloadAdap
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView albumImg;
         TextView albumTitle;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             albumImg = itemView.findViewById(R.id.albumImg);

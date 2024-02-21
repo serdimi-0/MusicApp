@@ -1,77 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/light"
     tools:context=".view.DownloadMainFragment">
 
     <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:textColor="@color/dark"
-            android:layout_marginRight="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Search: " />
-
-        <EditText
-            android:textColor="@color/dark"
-            android:id="@+id/edtSearch"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:paddingVertical="10dp"
-        android:paddingHorizontal="30dp"
-        android:layout_height="wrap_content">
-
-        <RadioGroup
-            android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
-            <RadioButton
-                android:id="@+id/radio_artists"
-                android:textColor="@color/dark"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:text="Artists"
-                android:checked="true"/>
+                android:layout_marginRight="10dp"
+                android:text="Search: "
+                android:textColor="@color/dark" />
 
-            <RadioButton
-                android:id="@+id/radio_albums"
-                android:layout_width="0dp"
-                android:textColor="@color/dark"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="Albums" />
-        </RadioGroup>
+            <EditText
+                android:id="@+id/edtSearch"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textColor="@color/dark" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/btnSearch"
-            android:layout_width="wrap_content"
-            android:background="@drawable/text_button_background"
-            android:textColor="@color/light"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Search"/>
+            android:orientation="horizontal"
+            android:paddingHorizontal="30dp"
+            android:paddingVertical="10dp">
+
+            <RadioGroup
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_artists"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:checked="true"
+                    android:text="Artists"
+                    android:textColor="@color/dark" />
+
+                <RadioButton
+                    android:id="@+id/radio_albums"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Albums"
+                    android:textColor="@color/dark" />
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/btnSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/text_button_background"
+                android:text="Search"
+                android:textColor="@color/light" />
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcyDownload"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/downloadToolbar"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="@drawable/toolbar_background"
+        android:elevation="1dp"
+        android:alpha="0"
+        android:visibility="invisible"
+        android:layout_marginBottom="20dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout4"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcyDownload"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</LinearLayout>
+        <ImageButton
+            android:id="@+id/btnDownload"
+            style="?attr/actionButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/download" />
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

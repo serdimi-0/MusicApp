@@ -109,7 +109,6 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.ViewHo
             holder.txtDownloadName.setText(currentArtist.getName());
 
 
-            // Get top albums and navigate to fragment
             holder.itemView.setOnClickListener(e -> {
                 NavDirections n = DownloadMainFragmentDirections.actionDownloadMainFragmentToDownloadAlbumsFragment();
                 NavController nav = NavHostFragment.findNavController(context);
@@ -137,6 +136,18 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.ViewHo
         } else if (type.equals("Album")) {
             Album currentAlbum = (Album) list.get(position);
 
+            holder.itemView.setOnClickListener(e -> {
+                int posicioAnterior = this.selectedIndex;
+                this.selectedIndex = holder.getAdapterPosition();
+                this.notifyItemChanged(posicioAnterior);
+                this.notifyItemChanged(selectedIndex);
+
+                mViewModel.setCurrentAlbum(currentAlbum);
+
+                holder.itemView.getRootView().findViewById(R.id.downloadToolbar).setVisibility(View.VISIBLE);
+                holder.itemView.getRootView().findViewById(R.id.downloadToolbar).animate().alpha(1f);
+            });
+
             if (currentAlbum.getImgBitmap() != null) {
                 holder.imgDownload.setImageBitmap(currentAlbum.getImgBitmap());
             } else {
@@ -162,6 +173,12 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.ViewHo
             }
 
             holder.txtDownloadName.setText(currentAlbum.getTitle());
+
+            if (position == this.selectedIndex) {
+                holder.itemView.findViewById(R.id.rowDownload).setBackgroundResource(R.color.lightPink);
+            } else {
+                holder.itemView.findViewById(R.id.rowDownload).setBackgroundResource(R.color.light);
+            }
         }
     }
 
