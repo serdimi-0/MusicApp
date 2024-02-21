@@ -32,7 +32,6 @@ public class TrackEditDialogFragment extends DialogFragment {
     AlbumsViewModel mViewModel;
     Album currentAlbum;
     Track currentTrack;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +46,7 @@ public class TrackEditDialogFragment extends DialogFragment {
         View v = inflater.inflate(R.layout.dialog_track,
                 container, false);
 
+        TextView dialogTitle = v.findViewById(R.id.txtDialogTitle);
         NumberPicker minutePicker = v.findViewById(R.id.minuteSpinner);
         NumberPicker secondPicker = v.findViewById(R.id.secondSpinner);
         EditText title = v.findViewById(R.id.edtTitle);
@@ -56,6 +56,7 @@ public class TrackEditDialogFragment extends DialogFragment {
         ImageButton up = v.findViewById(R.id.btnUp);
         ImageButton down = v.findViewById(R.id.btnDown);
 
+        dialogTitle.setText(currentTrack == null ? "Add track" : "Edit track");
 
         minutePicker.setMaxValue(59);
         minutePicker.setMinValue(0);
@@ -91,7 +92,7 @@ public class TrackEditDialogFragment extends DialogFragment {
                 }
             }
 
-            if (exists) {
+            if (exists && (currentTrack == null || currentTrack.getNumber() != n)) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
                 builder.setCancelable(false);
                 builder.setTitle("Error");
@@ -105,9 +106,14 @@ public class TrackEditDialogFragment extends DialogFragment {
                 currentTrack.setTitle(t);
                 currentTrack.setNumber(n);
                 mViewModel.updateTrack(currentTrack);
+                mViewModel.getTrackAdapter().notifyItemChanged(mViewModel.getTrackAdapter().getSelectedIndex());
+                mViewModel.getTrackAdapter().getTrackList().sort((o1, o2) -> o1.getNumber() - o2.getNumber());
                 dismiss();
             } else {
                 mViewModel.insertTrack(new Track(currentAlbum.getId(), n, t, duration, false));
+                mViewModel.getTrackAdapter().getTrackList().add(new Track(currentAlbum.getId(), n, t, duration, false));
+                mViewModel.getTrackAdapter().getTrackList().sort((o1, o2) -> o1.getNumber() - o2.getNumber());
+                mViewModel.getTrackAdapter().notifyDataSetChanged();
                 dismiss();
             }
         });

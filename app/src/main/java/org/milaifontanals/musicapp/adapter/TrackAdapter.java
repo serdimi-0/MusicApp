@@ -30,7 +30,19 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.ViewHolder> 
     private List<Track> trackList;
     Fragment context;
     private AlbumsViewModel mViewModel;
+    private int selectedIndex = -1;
 
+    public int getSelectedIndex() {
+        return selectedIndex;
+    }
+
+    public List<Track> getTrackList() {
+        return trackList;
+    }
+
+    public void setSelectedIndex(int selectedIndex) {
+        this.selectedIndex = selectedIndex;
+    }
     public TrackAdapter(List<Track> trackList, Fragment context, AlbumsViewModel albumsViewModel) {
         this.trackList = trackList;
         this.mViewModel = albumsViewModel;
@@ -73,13 +85,34 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.ViewHolder> 
         });
 
         holder.itemView.setOnClickListener(e -> {
-
-            /*mViewModel.setCurrentTrack(currentTrack);
-            NavDirections n = TracklistFragmentDirections.actionTracklistFragmentToTrackEditDialogFragment();
-            NavController nav = NavHostFragment.findNavController(context);
-            nav.navigate(n);*/
+            this.notifyItemChanged(selectedIndex);
+            selectedIndex = -1;
+            holder.itemView.getRootView().findViewById(R.id.trackToolbar).animate().alpha(0f).withEndAction(() -> {
+                if (holder.itemView.getRootView().findViewById(R.id.trackToolbar) != null)
+                    holder.itemView.getRootView().findViewById(R.id.trackToolbar).setVisibility(View.INVISIBLE);
+            });
 
         });
+        
+        holder.itemView.setOnLongClickListener(e -> {
+            int posicioAnterior = this.selectedIndex;
+            this.selectedIndex = holder.getAdapterPosition();
+            this.notifyItemChanged(posicioAnterior);
+            this.notifyItemChanged(selectedIndex);
+            
+            mViewModel.setCurrentTrack(currentTrack);
+            
+            holder.itemView.getRootView().findViewById(R.id.trackToolbar).setVisibility(View.VISIBLE);
+            holder.itemView.getRootView().findViewById(R.id.trackToolbar).animate().alpha(1f);
+            
+            return true;
+        });
+
+        if (position == this.selectedIndex) {
+            holder.itemView.findViewById(R.id.trackRow).setBackgroundResource(R.color.lightPink);
+        } else {
+            holder.itemView.findViewById(R.id.trackRow).setBackgroundResource(R.color.light);
+        }
 
     }
 

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:orientation="horizontal"
+    android:id="@+id/trackRow"
     android:background="@color/light">
 
     <TextView

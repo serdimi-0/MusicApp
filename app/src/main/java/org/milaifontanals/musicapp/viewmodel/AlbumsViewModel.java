@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.room.Room;
 
+import org.milaifontanals.musicapp.adapter.TrackAdapter;
 import org.milaifontanals.musicapp.dao.AlbumDao;
 import org.milaifontanals.musicapp.dao.TrackDao;
 import org.milaifontanals.musicapp.db.AppDatabase;
@@ -34,6 +35,7 @@ public class AlbumsViewModel extends AndroidViewModel {
     private Album currentAlbum;
     private String currentArtist;
     private Track currentTrack;
+    private TrackAdapter trackAdapter;
     public MutableLiveData<Boolean> insertDone = new MutableLiveData<>();
 
     public AlbumsViewModel(@NonNull Application application) {
@@ -62,6 +64,14 @@ public class AlbumsViewModel extends AndroidViewModel {
 
     public List<Album> getAlbumDownloadList() {
         return albumDownloadList;
+    }
+
+    public TrackAdapter getTrackAdapter() {
+        return trackAdapter;
+    }
+
+    public void setTrackAdapter(TrackAdapter trackAdapter) {
+        this.trackAdapter = trackAdapter;
     }
 
     public void setAlbumDownloadList(List<Album> albumDownloadList) {
@@ -97,15 +107,6 @@ public class AlbumsViewModel extends AndroidViewModel {
         }).subscribeOn(Schedulers.io()).subscribe();
     }
 
-    public void deleteAlbum(Album album) {
-        Observable.fromCallable(() -> {
-            AlbumDao albumDao = db.albumDao();
-            TrackDao trackDao = db.trackDao();
-            trackDao.deleteAllFromAlbum(album.getId());
-            albumDao.delete(album);
-            return true;
-        }).subscribeOn(Schedulers.io()).subscribe();
-    }
 
 
     public Long getId() {
@@ -281,6 +282,24 @@ public class AlbumsViewModel extends AndroidViewModel {
         Observable.fromCallable(() -> {
             TrackDao trackDao = db.trackDao();
             trackDao.insertAll(track);
+            return true;
+        }).subscribeOn(Schedulers.io()).subscribe();
+    }
+
+    public void deleteAlbum(Album album) {
+        Observable.fromCallable(() -> {
+            AlbumDao albumDao = db.albumDao();
+            TrackDao trackDao = db.trackDao();
+            trackDao.deleteAllFromAlbum(album.getId());
+            albumDao.delete(album);
+            return true;
+        }).subscribeOn(Schedulers.io()).subscribe();
+    }
+
+    public void deleteTrack(Track track) {
+        Observable.fromCallable(() -> {
+            TrackDao trackDao = db.trackDao();
+            trackDao.delete(track);
             return true;
         }).subscribeOn(Schedulers.io()).subscribe();
     }
