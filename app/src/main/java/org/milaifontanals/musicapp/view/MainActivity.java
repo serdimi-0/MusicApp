@@ -55,17 +55,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_music);
 
-
-        /*Observable.fromCallable(() -> {
-
-            List<Artist> list = LastfmAPI.getArtists("tyler");
-
-            Log.d("TAG", list.toString());
-
-            return list;
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe();*/
-
-
     }
 
 

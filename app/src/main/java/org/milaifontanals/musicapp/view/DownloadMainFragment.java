@@ -26,6 +26,7 @@ import org.milaifontanals.musicapp.R;
 import org.milaifontanals.musicapp.adapter.DownloadAdapter;
 import org.milaifontanals.musicapp.databinding.FragmentDownloadMainBinding;
 import org.milaifontanals.musicapp.lastfm.LastfmAPI;
+import org.milaifontanals.musicapp.model.Album;
 import org.milaifontanals.musicapp.viewmodel.AlbumsViewModel;
 
 import java.util.Date;
@@ -70,7 +71,6 @@ public class DownloadMainFragment extends Fragment {
         rcy.setHasFixedSize(true);
 
 
-
         binding.btnSearch.setOnClickListener(e -> {
             binding.downloadToolbar.animate().alpha(0f).withEndAction(() -> {
                 if (binding.downloadToolbar != null)
@@ -96,15 +96,24 @@ public class DownloadMainFragment extends Fragment {
         });
 
         binding.btnDownload.setOnClickListener(v1 -> {
-            Log.d("TAG", mViewModel.getCurrentAlbum().toString());
-            mViewModel.getCurrentAlbum().setReleaseDate(new Date());
-            mViewModel.insertAlbum(mViewModel.getCurrentAlbum());
+            Observable.fromCallable(() -> {
+                Album a = LastfmAPI.getAlbumInfo(mViewModel.getCurrentAlbum().getArtist(), mViewModel.getCurrentAlbum().getTitle());
+                if (a != null) mViewModel.insert(a);
+                return true;
+            }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).doOnNext(data -> {
+                /*downloadAdapter.setSelectedIndex(-1);*/
+                binding.downloadToolbar.animate().alpha(0).withEndAction(() -> {
+                    binding.downloadToolbar.setVisibility(View.GONE);
+                    /*downloadAdapter.noti*/
+                });
+            }).subscribe();
+
         });
 
         return v;
     }
 
-    private void search(){
+    private void search() {
         String text = binding.edtSearch.getText().toString();
 
         if (text.isEmpty()) return;
@@ -112,7 +121,7 @@ public class DownloadMainFragment extends Fragment {
         Observable.fromCallable(() -> {
             List<?> adapterList = null;
             if (binding.radioAlbums.isChecked()) {
-                downloadAdapter = new DownloadAdapter(null, mViewModel ,this, "Album");
+                downloadAdapter = new DownloadAdapter(null, mViewModel, this, "Album");
                 adapterList = LastfmAPI.getAlbumsFromName(text);
             } else if (binding.radioArtists.isChecked()) {
                 downloadAdapter = new DownloadAdapter(null, mViewModel, this, "Artist");
@@ -120,7 +129,7 @@ public class DownloadMainFragment extends Fragment {
             }
             return adapterList;
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).doOnNext(data -> {
-            downloadAdapter.setList((List<?>)data);
+            downloadAdapter.setList((List<?>) data);
             rcy.setAdapter(downloadAdapter);
         }).subscribe();
 

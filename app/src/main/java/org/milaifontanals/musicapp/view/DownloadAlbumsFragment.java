@@ -21,10 +21,17 @@ import org.milaifontanals.musicapp.R;
 import org.milaifontanals.musicapp.adapter.AlbumAdapter;
 import org.milaifontanals.musicapp.adapter.AlbumDownloadAdapter;
 import org.milaifontanals.musicapp.databinding.FragmentDownloadAlbumsBinding;
+import org.milaifontanals.musicapp.lastfm.LastfmAPI;
+import org.milaifontanals.musicapp.model.Album;
 import org.milaifontanals.musicapp.utils.GridSpacingItemDecoration;
 import org.milaifontanals.musicapp.viewmodel.AlbumsViewModel;
 
 import java.util.Date;
+import java.util.List;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class DownloadAlbumsFragment extends Fragment {
 
@@ -59,9 +66,18 @@ public class DownloadAlbumsFragment extends Fragment {
         binding.artistName.setText(mViewModel.getCurrentArtist());
 
         binding.btnDownloadAlbum.setOnClickListener(v1 -> {
-            Log.d("TAG", mViewModel.getCurrentAlbum().toString());
-            mViewModel.getCurrentAlbum().setReleaseDate(new Date());
-            mViewModel.insertAlbum(mViewModel.getCurrentAlbum());
+            Observable.fromCallable(() -> {
+                Album a = LastfmAPI.getAlbumInfo(mViewModel.getCurrentArtist(), mViewModel.getCurrentAlbum().getTitle());
+                mViewModel.insert(a);
+                return true;
+            }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).doOnNext(data -> {
+                /*albumDownloadAdapter.setSelectedIndex(-1);*/
+               /* albumDownloadAdapter.notify();*/
+                binding.downloadAlbumToolbar.animate().alpha(0).withEndAction(() -> {
+                    binding.downloadAlbumToolbar.setVisibility(View.GONE);
+                });
+            }).subscribe();
+
         });
 
         RecyclerView rcyAlbums = binding.rcyArtistAlbums;

@@ -63,4 +63,13 @@ public class Track {
     public void setFav(boolean fav) {
         this.fav = fav;
     }
+
+    @Override
+    public String toString() {
+        return "Track{" +
+                "number=" + number +
+                ", title='" + title + '\'' +
+                ", duration=" + duration +
+                '}';
+    }
 }

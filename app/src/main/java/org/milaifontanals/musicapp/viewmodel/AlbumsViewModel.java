@@ -99,8 +99,10 @@ public class AlbumsViewModel extends AndroidViewModel {
         Observable.fromCallable(() -> {
             AlbumDao albumDao = db.albumDao();
             albumDao.insertAll(album);
-            for (Track track : album.getTrackList()) {
-                db.trackDao().insertAll(track);
+            if(album.getTrackList()!=null) {
+                for (Track track : album.getTrackList()) {
+                    db.trackDao().insertAll(track);
+                }
             }
             insertDone.postValue(true);
             return true;

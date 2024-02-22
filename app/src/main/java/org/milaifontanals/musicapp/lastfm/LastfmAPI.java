@@ -5,9 +5,11 @@ import android.util.Log;
 import org.json.*;
 import org.milaifontanals.musicapp.model.Album;
 import org.milaifontanals.musicapp.model.Artist;
+import org.milaifontanals.musicapp.model.Track;
 import org.milaifontanals.musicapp.utils.NetworkUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class LastfmAPI {
@@ -103,17 +105,35 @@ public class LastfmAPI {
         JSONObject root = null;
         try {
             root = new JSONObject(json);
-            JSONArray albumsArray = root.getJSONObject("results").getJSONObject("albummatches").getJSONArray("album");
-            for (int i = 0; i < albumsArray.length(); i++) {
-                albums.add(new Album(albumsArray.getJSONObject(i).getString("mbid"), albumsArray.getJSONObject(i).getString("name"),
-                        albumsArray.getJSONObject(i).getString("artist"), null,
-                        albumsArray.getJSONObject(i).getJSONArray("image").getJSONObject(3).getString("#text")));
-                Log.d("TAG", albums.get(i).toString());
+            JSONObject albumObject = root.getJSONObject("album");
+            String id;
+            try {
+                id = albumObject.getString("mbid");
+                id = !id.equals("") ? id : String.valueOf((int) (Math.random() * 1000000));
+            } catch (JSONException e) {
+                id = String.valueOf((int) (Math.random() * 1000000));
             }
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
+            List<Track> tracks = new ArrayList<>();
+            try {
+                JSONArray tracksArray = albumObject.getJSONObject("tracks").getJSONArray("track");
+                for (int i = 0; i < tracksArray.length(); i++) {
+                    JSONObject track = tracksArray.getJSONObject(i);
+                    Track t = new Track(id, track.getJSONObject("@attr").getInt("rank"),
+                            track.getString("name"), track.getInt("duration") * 1000, false);
+                    tracks.add(t);
+                    Log.d("TAG", t.toString());
+                }
+            } catch (JSONException e) {
+                tracks = null;
+            }
+            Album a = new Album(id, albumObject.getString("name"),
+                    albumObject.getString("artist"), new Date(),
+                    albumObject.getJSONArray("image").getJSONObject(3).getString("#text"));
+            a.setTrackList(tracks);
 
-        return null;
+            return a;
+        } catch (JSONException e) {
+            return null;
+        }
     }
 }
